@@ -1,0 +1,243 @@
+body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+}
+
+fieldset {
+        margin: 0 auto;
+        width: 50%;
+        padding: 1em;
+        border: 1px solid #CCC;
+        border-radius: 1em;
+}
+
+legend {
+        width: 50%;
+}
+
+li {
+list-style: none;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 0.5em;
+border-bottom: 1px solid #CCC;
+border-radius: 0.5em;
+cursor: pointer;
+font-size: 0.8em;
+font-weight: bold;
+color: rgb(230, 16, 16);
+background-color: #FFF;
+transition: all 0.3s;
+}
+
+.fa-trash {
+        color: rgb(230, 16, 16);
+        cursor: pointer;
+        transition: transform .2s;
+}
+
+.fa-trash:hover {
+        transform: scale(1.2);
+}
+
+
+.fa-edit {
+        color: rgb(15, 64, 199);
+        cursor: pointer;
+        transition: transform .2s;
+}
+
+.fa-edit:hover {
+        transform: scale(1.2);
+}
+
+.fa-eye {
+        color: rgb(64, 185, 100);
+        cursor: pointer;
+        transition: transform .2s;
+}
+
+.fa-eye:hover {
+        transform: scale(1.2);
+}
+
+.fa-plus-square-o {
+        color: #e99002;
+        cursor: pointer;
+        transition: transform .2s;
+        font-size: 2rem;
+}
+
+.fa-plus-square-o:hover {
+        transform: scale(1.2);
+}
+
+a {
+       font-size: 1.2rem;
+        color: #000;
+        text-decoration: overline;
+         transition: transform .2s;
+}
+
+a:hover {
+        /* color: #fff;
+        background-color: #e99002; */
+        text-decoration: none;
+         transform: scale(1.2);
+         /* border: #e99002 solid 1px; */
+}
+
+.active {
+        background-color: #e99002;
+}
+
+/* Set a style for all buttons */
+button {
+  /* background-color: #e99002; */
+  /* color: white; */
+  padding: 1rem 1.5rem;
+  margin: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: transform .2s;
+  /* width: 15%; */
+  /* opacity: 0.9; */
+}
+
+button:hover {
+  opacity:1;
+  transform: scale(1.2);
+}
+
+/* Float cancel and delete buttons and add an equal width */
+.cancelbtn, .deletebtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+  background-color: #ccc;
+  color: black;
+  width: 100%;
+}
+
+/* Add a color to the delete button */
+.deletebtn {
+  background-color: #f44336;
+  width: 100%;
+}
+
+/* Add padding and center-align text to the container
+.containerModal {
+ display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+} */
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: #474e5d;
+  padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 0.8rem;
+}
+
+/* The Modal Close Button (x) */
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* espacement */
+
+.table {
+  table-layout: fixed;
+  width: auto;
+  border-collapse: collapse;
+  border: 3px solid #e99002;
+}
+
+thead th {
+        width: auto;
+        border: 1px solid #d3d3d4;
+        background-color: #e99002;
+        color: #FFF;
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+}
+
+td {
+        width: auto;
+        border: 1px solid #d3d3d4;
+        font-weight: bold;
+}
+
+/* thead th:nth-child(1) {
+  width: 10%;
+}
+
+thead th:nth-child(2) {
+  width: 10%;
+}
+
+thead th:nth-child(3) {
+  width: 25%;
+}
+
+thead th:nth-child(4) {
+  width: 55%;
+}
+
+th, td {
+  padding: 20px;
+} */
+
+/* Change styles for cancel button and delete button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .deletebtn {
+     width: 100%;
+  }
+}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div class="col-sm-12">
+		<div class="form-group">
+				<a href="{{ path('home') }}" class="btn btn-default">
+					<i class="fa fa-arrow-circle-left"> Retour à l'accueil</i>
+				</a>
+		</div>
+        <h1>Me contacter</h1>
+        <p>
+        Une question, une remarque ?
+        </p>
+        <br>
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
+		<div class="form-group">
+			{{ form_label(form.email) }}
+			{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+		</div>
+		<div class="form-group">
+			{{ form_label(form.nom) }}
+			{{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
+		</div>
+		<div class="form-group">
+			{{ form_label(form.message) }}
+			{{ form_widget(form.message, { 'attr': {'class': 'form-control'} }) }}
+		</div>
+		<div class="form-group">
+			{{form_row(form.captcha)}}
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Envoyer" class="btn btn-success"/>
+		</div>
+
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

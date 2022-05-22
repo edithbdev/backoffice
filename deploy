@@ -1,0 +1,2 @@
+#!/bin/bash
+rsync -av -e "ssh -p 65002" ./ u154940854@51.178.134.91:/home/u154940854/public_html/backoffice/ --include=public/build --include=public/.htaccess --exclude-from=.gitignore --exclude=".*"

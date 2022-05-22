@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+		{% trans_default_domain "messages" %}
+{% block title %}Inscription
+{% endblock %}
+{% block body %}
+	<h1>Inscription</h1>
+	<p>
+		Vous pouvez vous inscrire en remplissant le formulaire ci-dessous.  Vous aurez accès à votre espace personnel après validation de votre inscription.
+	</p>
+		<fieldset>
+			<legend>Inscrivez vous</legend>
+
+			{{ form_start(form, {'attr': {'id': 'new_user'}}) }}
+
+			<div class="form_row">
+
+				<div class="form-group">
+					{{ form_label(form.username) }}
+					{{ form_widget(form.username, {'attr':{'class': 'form-control'}}) }}
+					{{ form_errors(form.username)}}
+					{{ form_help(form.username) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(form.password) }}
+					{{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+					{{ form_errors(form.password) }}
+					{{ form_help(form.password) }}
+				</div>
+				<div class="col-12 mb-3">
+					<label for="verifpass">Saisir une seconde fois le mot de passe</label>
+					<input type="password" id="verifpass" required>
+				</div>
+				<div class="form-group">
+					{{form_row(form.captcha)}}
+				</div>
+				<div class="col-12">
+					{{ form_widget(form.roles, { 'attr': {'class': 'd-none'} }) }}
+					{{ form_widget(form.created_At, { 'attr': {'class': 'd-none'} }) }}
+				</div>
+			</div>
+			{{ form_end(form) }}
+		</fieldset>
+
+	{% endblock %}

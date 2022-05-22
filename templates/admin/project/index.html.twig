@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des projets
+{% endblock %}
+
+{% block body %}
+	{% for flashSuccess in app.flashes('success') %}
+		<div class="alert alert-danger" role="alert">{{ flashSuccess }}</div>
+	{% endfor %}
+	<h1  class="my-4">Gestion des projets</h1>
+	{% if is_granted('ROLE_ADMIN', projects) %}
+	<div class="mb-4">
+	<span title="Ajouter un projet">
+		<a href="{{ path("admin_project_new") }}"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a>
+        </span>
+        </div>
+	    {% endif %}
+
+	<table class="table mb-5">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nom</th>
+                <th>Description</th>
+                <th>Technos</th>
+                <th>Liens</th>
+                <th>Image</th>
+                <th>Date de création</th>
+                <th>Date de modification</th>
+				<th>Publié</th>
+				<th>Voir</th>
+                <th>Modifier</th>
+                <th>Supprimer</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for project in projects %}
+				<tr>
+					<td>{{project.id}}</td>
+					<td>{{project.name}}</td>
+                    <td>{{project.description}}</td>
+					<td>
+						{% for techno in project.techno %}
+							{{techno.name}}
+							 {% if not loop.last %}|{% endif %}
+						{% endfor %}
+					</td>
+                    <td>
+                            <a href="{{project.link}}" target="_blank"><i class="fa fa-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <img src="{{ asset('/uploads/'~project.image)}}" alt="{{project.name}}" width="150" class="img-thumbnail">
+                    </td>
+                    <td>{{project.createdAt|date('d/m/Y')}}</td>
+                    <td>{{project.updatedAt|date('d/m/Y')}}</td>
+					<td>{{project.isPublished ? 'Oui' : 'Non'}}</td>
+
+					<td>
+						{% if is_granted('POST_EDIT', project) %}
+							<a href="{{ path('admin_project_show', {'id': project.id}) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    {% endif %}
+					</td>
+					<td>
+						{% if is_granted('POST_EDIT', project) %}
+							<a href="{{ path("admin_project_edit", {id: project.id}) }}"> <i class="fa fa-edit" aria-hidden="true"></i></a>
+                    {% endif %}
+					</td>
+					<td>
+						{% if is_granted('POST_DELETE', project) %}
+							<a href="{{ path("admin_project_delete", {id: project.id}) }}" ><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    {% endif %}
+
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">Aucun projets trouvées</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

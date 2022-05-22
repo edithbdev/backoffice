@@ -1,0 +1,12 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{# pour test : https://localhost:8000/_error/404 #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Erreurs</h1>
+
+    <p>
+        The requested page couldn't be located. Checkout for any URL
+        misspelling or <a href="{{ path('home') }}">return to the homepage</a>.
+    </p>
+{% endblock %}

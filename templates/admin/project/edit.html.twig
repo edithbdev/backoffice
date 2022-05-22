@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du projet
+	{{ project.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="my-4">
+			Modification du projet
+			{{ project.name }}</h1>
+		{{ form_start(form) }}
+		{{ form_label(form.name, 'Nom du projet', {'label_attr': {class: 'input-group-text'}}) }}
+		{{ form_errors(form.name) }}
+		{{ form_widget(form.name, {'attr': {class: 'form-control mb-3'}}) }}
+
+		{{ form_label(form.description , 'Description', {'label_attr': {class: 'input-group-text'}}) }}
+		{{ form_errors(form.description) }}
+		{{ form_widget(form.description, {'attr': {class: 'form-control mb-3'}}) }}
+
+		{{ form_label(form.link, 'Lien du projet', {'label_attr': {class: 'input-group-text'}}) }}
+		{{ form_errors(form.link) }}
+		{{ form_widget(form.link, {'attr': {class: 'form-control mb-3'}}) }}
+
+		{{ form_label(form.techno, 'Techno utilisé', {'label_attr': {class: 'input-group-text'}}) }}
+		{{ form_errors(form.techno) }}
+		{{ form_widget(form.techno, {'attr': {class: 'form-control mb-3 d-flex justify-content-sm-between'}}) }}
+
+		{% if form.image %}
+			<img src="{{ asset('/uploads/'~project.image) }}" alt="{{ project.image }}" class="img-fluid" style="max-width: 150px;">
+			{{ form_label(form.image, 'Image', {'label_attr': {class: 'input-group-text'}}) }}
+			{{ form_errors(form.image) }}
+			{{ form_widget(form.image, {'attr': {class: 'input-group form-select' }}) }}
+		{% endif %}
+
+		{{ form_row(form.isPublished, {'attr': {'class': 'form-check mb-3'}}) }}
+		{{ form_errors(form.isPublished) }}
+
+		{{ form_widget(form.created_At, { 'attr': {'class': 'd-none'} }) }}
+
+		<button class="btn btn-primary mb-5 mt-3">{{ button_label|default('Mettre à jour') }}</button>
+		<button class="btn mb-5 mt-3 redirect">
+			<a href="{{ path('admin_project_index') }}">Annuler</a>
+		</button>
+		{{ form_end(form) }}
+		{{ include('admin/project/_delete_form.html.twig') }}
+
+	</div>
+{% endblock %}

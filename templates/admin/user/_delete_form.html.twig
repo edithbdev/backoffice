@@ -1,0 +1,19 @@
+<button onclick="document.getElementById('confirm-delete').style.display='block'"> <i class="fa fa-trash" aria-hidden="true"></i></button>
+
+<div id="confirm-delete" class="modal">
+  <span onclick="document.getElementById('confirm-delete').style.display='none'" class="close" title="Close Modal">×</span>
+  <form method="post" class="modal-content" action="{{ path('admin_user_delete', {'id': user.id}) }}">
+  <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+    <div class="container">
+      <h1>Supprimer un utilisateur</h1>
+      <p>Voulez-vous vraiment supprimer l'utilisateur <strong>{{ user.username }}</strong> ?</p>
+
+      <div class="clearfix">
+        <button type="button" onclick="document.getElementById('confirm-delete').style.display='none'" class="cancelbtn">Cancel</button>
+        {# <button type="button" onclick="document.getElementById('confirm-delete').style.display='none'" class="deletebtn">Delete</button> #}
+        <button type="submit" onclick="document.getElementById('confirm-delete').style.display='none'" class="deletebtn">Delete</button>
+
+      </div>
+    </div>
+  </form>
+</div>

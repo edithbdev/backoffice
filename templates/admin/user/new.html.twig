@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscrire un nouvel utilisateur{% endblock %}
+
+{% block body %}
+        <h1>Inscrire un nouvel utilisateur</h1>
+
+        <fieldset>
+                <legend>Nouvel utilisateur</legend>
+                {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+                {# utilisation de classes bootstrap pour la mise en forme #}
+                <div class="row">
+                        <div class="col-12">
+                                {{ form_label(form.username) }}
+                                {{ form_widget(form.username) }}
+                                {{ form_errors(form.username) }}
+                        </div>
+                        <div class="col-12">
+                                {{ form_widget(form.password) }}
+                                {{ form_errors(form.password) }}
+                        </div>
+                        <div class="col-12">
+                                {{ form_widget(form.roles, { 'attr': {'class': 'd-none'} }) }}
+                                {{ form_widget(form.created_At, { 'attr': {'class': 'd-none'} }) }}
+                        </div>
+                </div>
+                {{ form_end(form) }}
+                 <button class="btn redirect"><a href="{{ path('admin_user_index') }}">Annuler</a></button>
+        </fieldset>
+
+        {# <a class="btn btn-info" href="{{ path('contact') }}">Me contacter</a> #}
+{% endblock %}

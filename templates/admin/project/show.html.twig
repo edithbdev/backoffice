@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{project.name}}{% endblock %}
+
+{% block body %}
+	{% if is_granted('ROLE_ADMIN') %}
+    <h1 class="my-4">Détail du projet :
+			{{ project.name}}
+		</h1>
+
+        <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ project.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ project.name }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ project.description }}</td>
+                </tr>
+                <tr>
+                    <th>Technos</th>
+                    <td>
+						{% for techno in project.techno %}
+							{{techno.name}}
+						{% endfor %}
+					</td>
+                </tr>
+                <tr>
+                    <th>lien</th>
+                    <td>
+                            <a href="{{project.link}}" target="_blank">Voir le projet</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Image</th>
+                    <td>
+                        <img src="{{ asset('/uploads/'~project.image)}} " alt="{{project.name}}" width="50" class="img-thumbnail">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Date de création</th>
+                    <td>{{ project.createdAt|date('d/m/Y') }}</td>
+                </tr>
+                <tr>
+                    <th>Date de modification</th>
+                    <td>{{ project.updatedAt|date('d/m/Y') }}</td>
+                </tr>
+                <tr>
+                    <th>Actif</th>
+                    <td>{{ project.isPublished ? 'Oui' : 'Non' }}</td>
+                </tr>
+                </tbody>
+        </table>
+
+        	<hr>
+		<button>
+			<a href="{{ path("admin_project_edit", {id: project.id}) }}">
+				<i class="fa fa-edit" aria-hidden="true"></i>
+			</a>
+		</button>
+
+		{{ include('admin/project/_delete_form.html.twig') }}
+
+		<button>
+			<a href="{{ path('admin_project_index') }}">Retour</a>
+		</button>
+	{% else %}
+		<h1>Vous n'avez pas les droits d'accès à cette page</h1>
+	{% endif %}
+{% endblock %}
+
+
+
+
+{# {%if is_granted('POST_EDIT',project) %}
+<button class="btn mb-5 redirect">
+			<a class="redirect" href="{{ path("admin_project_edit", {id: project.id}) }}" class="action">Modifier</a>
+		</button>
+		<button class="btn mb-5 redirect">
+			<a href="{{ path('admin_project_index') }}">Retour</a>
+		</button>
+	{% endif %}
+        {{ include('admin/project/_delete_form.html.twig') }}
+{% endblock %} #}
