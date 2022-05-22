@@ -58,7 +58,15 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+        "php": "7.4",
+        "ext-fileinfo": "1.0.5",
+        "ext-pdo": "7.4",
+        "ext-session": "7.4",
+        "ext-iconv": "7.4",
+        "ext-zip": "1.15.4"
+    }
     },
     "autoload": {
         "psr-4": {
