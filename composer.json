@@ -25,8 +25,8 @@
         "symfony/flex": "^1.17|^2",
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
-        "symfony/http-client": "5.4.*",
         "symfony/google-mailer": "5.4.*",
+        "symfony/http-client": "5.4.*",
         "symfony/mailer": "5.4.*",
         "symfony/maker-bundle": "^1.36",
         "symfony/mime": "5.4.*",
@@ -89,6 +89,7 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
+            "@auto-scripts"
         ],
         "post-update-cmd": [
             "@auto-scripts"
