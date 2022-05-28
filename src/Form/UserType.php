@@ -128,8 +128,7 @@ class UserType extends AbstractType
                 'mapped' => false,
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Envoyer',
-                'attr' => ['class' => 'btn btn-primary'],
+                'label' => 'Create Account',
             ]);
     }
 

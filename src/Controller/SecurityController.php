@@ -56,12 +56,12 @@ class SecurityController extends AbstractController
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, Session $session): Response
     {
         // Security test, if the user is not connected, he can't access to the register page
-        $user = $this->getUser();
-        if($user)
-        {
-                $session->set("message", "Vous ne pouvez pas créer un compte lorsque vous êtes connecté");
-                 return $this->redirectToRoute('home');
-        }
+        // $user = $this->getUser();
+        // if($user)
+        // {
+        //         $session->set("message", "Vous ne pouvez pas créer un compte lorsque vous êtes connecté");
+        //          return $this->redirectToRoute('home');
+        // }
         // si le formulaire contient des errors, on les récupère
         // if($session->has('errors'))
         // {
@@ -91,7 +91,7 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-              $this->addFlash('success', 'Votre compte a bien été créé, vous pouvez vous connecter');
+              $this->addFlash('success', 'Votre compte a bien été créé, vous pouvez vous connecter avec vos identifiants');
 
             return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
@@ -99,7 +99,6 @@ class SecurityController extends AbstractController
         return $this->render('security/register.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            // 'errors' => $errors
         ]);
     }
 
