@@ -12,182 +12,244 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-        /**
-         * @ORM\Id()
-         * @ORM\GeneratedValue()
-         * @ORM\Column(type="integer")
-         */
-        private $id;
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-        /**
-         * @ORM\Column(type="string", length=180, unique=true)
-         * @Assert\NotBlank()
-         * @Assert\Length(min=3, max=20)
-         */
-        private $username;
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=20)
+     */
+    private $email;
 
-        /**
-         * @ORM\Column(type="json")
-         */
-        private $roles = [];
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
-        /**
-         * @var string The hashed password
-         * @ORM\Column(type="string")
-         * @Assert\NotBlank()
-         * @Assert\Length(min=6, max=4096)
-         */
-        private $password;
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=6, max=4096)
+     */
+    private $password;
 
-        /**
-         * @ORM\Column(type="string", unique=true, nullable=true)
-         */
-        private $apiToken;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=3, max=30)
+     */
+    private $firstname;
 
-        /**
-        * @ORM\Column(type="string", length=255, nullable=true)
-        */
-        private $reset_token;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=3, max=30)
+     */
+    private $lastname;
 
-        /**
-        * @ORM\Column(type="datetime_immutable")
-        */
-        private $created_At;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=3, max=30)
+     */
+    private $phone;
 
-        /**
-        * @ORM\Column(type="datetime_immutable", nullable=true)
-        */
-        private $updated_At;
+    /**
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     */
+    private $apiToken;
 
-        public function __construct()
-        {
-                $this->created_At = new \DateTimeImmutable();
-                $this->updated_At = new \DateTimeImmutable();
-        }
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reset_token;
 
-        public function __toString()
-        {
-                return $this->username;
-        }
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $created_At;
 
-        public function getId(): ?int
-        {
-                return $this->id;
-        }
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $updated_At;
 
-        /**
-         * A visual identifier that represents this user.
-         *
-         * @see UserInterface
-         */
-        public function getUsername(): string
-        {
-                return (string) $this->username;
-        }
+    public function __construct()
+    {
+        $this->created_At = new \DateTimeImmutable();
+        $this->updated_At = new \DateTimeImmutable();
+    }
 
-        public function setUsername(string $username): self
-        {
-                $this->username = $username;
+    public function __toString()
+    {
+        return $this->email;
+    }
 
-                return $this;
-        }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-        /**
-         * @see UserInterface
-         */
-        public function getRoles(): array
-        {
-                $roles = $this->roles;
-                // guarantee every user at least has ROLE_USER
-                $roles[] = 'ROLE_USER';
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
 
-                return array_unique($roles);
-        }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
 
-        public function setRoles(array $roles): self
-        {
-                $this->roles = $roles;
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
-                return $this;
-        }
+        return $this;
+    }
 
-        /**
-         * @see UserInterface
-         */
-        public function getPassword(): string
-        {
-                return (string) $this->password;
-        }
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
-        public function setPassword(string $password): self
-        {
-                $this->password = $password;
+        return array_unique($roles);
+    }
 
-                return $this;
-        }
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
-        /**
-         * @see UserInterface
-         */
-        public function getSalt()
-        {
-                // not needed when using the "bcrypt" algorithm in security.yaml
-        }
+        return $this;
+    }
 
-        /**
-         * @see UserInterface
-         */
-        public function eraseCredentials()
-        {
-                // If you store any temporary, sensitive data on the user, clear it here
-                // $this->plainPassword = null;
-        }
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
 
-        public function getApiToken(): ?string
-        {
-            return $this->apiToken;
-        }
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
-        public function setApiToken(?string $apiToken): self
-        {
-            $this->apiToken = $apiToken;
+        return $this;
+    }
 
-            return $this;
-        }
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
 
-        public function getResetToken(): ?string
-        {
-            return $this->reset_token;
-        }
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 
-        public function setResetToken(?string $reset_token): self
-        {
-            $this->reset_token = $reset_token;
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
 
-            return $this;
-        }
+    public function setFirstname(?string $firstname): self
+    {
+        $this->firstname = $firstname;
 
-        public function getCreatedAt(): ?\DateTimeImmutable
-        {
-            return $this->created_At;
-        }
+        return $this;
+    }
 
-        public function setCreatedAt(\DateTimeImmutable $created_At): self
-        {
-            $this->created_At = $created_At;
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
 
-            return $this;
-        }
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
 
-        public function getUpdatedAt(): ?\DateTimeImmutable
-        {
-            return $this->updated_At;
-        }
+        return $this;
+    }
 
-        public function setUpdatedAt(?\DateTimeImmutable $updated_At): self
-        {
-            $this->updated_At = $updated_At;
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
 
-            return $this;
-        }
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(?string $apiToken): self
+    {
+        $this->apiToken = $apiToken;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_At;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_At): self
+    {
+        $this->created_At = $created_At;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_At;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updated_At): self
+    {
+        $this->updated_At = $updated_At;
+
+        return $this;
+    }
 }

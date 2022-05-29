@@ -10,6 +10,7 @@
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.2",
+        "symfony/dotenv": "5.4.*",
         "doctrine/orm": "^2.12",
         "friendsofsymfony/rest-bundle": "^3.2",
         "gregwar/captcha-bundle": "^2.2",
@@ -27,7 +28,6 @@
         "symfony/google-mailer": "5.4.*",
         "symfony/http-client": "5.4.*",
         "symfony/mailer": "5.4.*",
-        "symfony/maker-bundle": "^1.36",
         "symfony/mime": "5.4.*",
         "symfony/password-hasher": "5.4.*",
         "symfony/property-access": "5.4.*",
@@ -44,9 +44,9 @@
         "twig/twig": "^3.3"
     },
     "require-dev": {
+        "symfony/maker-bundle": "^1.43",
         "symfony/stopwatch": "5.4.*",
-        "symfony/web-profiler-bundle": "5.4.*",
-        "symfony/dotenv": "5.4.*"
+        "symfony/web-profiler-bundle": "5.4.*"
     },
     "config": {
         "allow-plugins": {
