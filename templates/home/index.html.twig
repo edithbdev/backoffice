@@ -4,8 +4,16 @@
 {% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
 	{# <h1 class="mt-4">Backoffice Porfolio - Edith Bredon</h1> #}
 	{# <div>
+=======
+	{% for flashSuccess in app.flashes('success') %}
+		<div class="alert alert-danger" role="alert">{{ flashSuccess }}</div>
+	{% endfor %}
+	<h1>Backoffice Porfolio - Edith Bredon</h1>
+	<div>
+>>>>>>> 28d8541 (add changes)
 		<a href="{{ 'https://edithbredon.fr' }}" class="btn btn-primary">Voir mon portfolio</a>
 		<a class="btn btn-outline-warning" href="{{ path('api_project_index') }}">Voir l'api de tous mes projets</a>
 	</div>
