@@ -1,25 +1,2 @@
-# # DO NOT REMOVE THIS LINE AND THE LINES BELLOW SSL_REDIRECT:edithbredon.fr
-#   RewriteEngine on
-#   RewriteCond %{HTTPS} off
-#   RewriteCond %{HTTP_HOST} (www\.)?backoffice.edithbredon.fr
-#   RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-# # DO NOT REMOVE THIS LINE AND THE LINES BELLOW SSL_REDIRECT:edithbredon.fr
-
-# # DO NOT REMOVE THIS LINE AND THE LINES BELLOW UPGRADE_INSECURE_REQUESTS:edithbredon.fr
-#   Header always set Content-Security-Policy: upgrade-insecure-requests
-# # DO NOT REMOVE THIS LINE AND THE LINES BELLOW UPGRADE_INSECURE_REQUESTS:edithbredon.fr
-
-# DirectoryIndex index.php
-
-
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteCond %{REQUEST_FILENAME} !-f
-
-# RewriteRule ^(.*)$ index.php?_url=/$1 [QSA,L]
-
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^(www.)?backoffice.edithbredon.fr$
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{HTTP_HOST} ^(www.)?backoffice.edithbredon.fr$
-RewriteRule ^(/)?$ index.php [L]
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ /public/$1 [L]

@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\TechnoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TechnoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=TechnoRepository::class)
@@ -58,9 +60,9 @@ class Techno
     }
 
     /**
-     * @return ArrayCollection|Project[]
+     * @return Collection|Project[]
      */
-    public function getProjects(): ArrayCollection
+    public function getProjects():Collection
     {
         return $this->projects;
     }

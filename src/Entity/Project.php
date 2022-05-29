@@ -137,7 +137,7 @@ class Project
     /**
      * @return Collection|Techno[]
      */
-    public function getTechno(): Collection
+    public function getTechno():Collection
     {
         return $this->techno;
     }
