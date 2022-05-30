@@ -28,11 +28,14 @@ security:
                 main:
                         lazy: true
                         provider: app_user_provider
+                        entry_point: App\Security\LoginFormAuthenticator
+                        # login_throttling:
+                        #         max_attempts: 5
+                        #         interval: 10s
                         guard:
                                 authenticators:
                                 - App\Security\LoginFormAuthenticator
-                        # custom_authenticators:
-                        #         - App\Security\ApiKeyAuthenticator
+                        # custom_authenticator: App\Security\LoginFormAuthenticator
                         logout:
                                 path: app_logout
                                 # where to redirect after logout

@@ -10,9 +10,9 @@
 			Modification du compte de
 			{{ app.user.username | upper }}</h1>
 		{{ form_start(form) }}
-		{{ form_label(form.username, 'Pseudo', {'label_attr': {class: 'input-group-text'}}) }}
-		{{ form_errors(form.username) }}
-		{{ form_widget(form.username, {'attr': {class: 'form-control mb-3'}}) }}
+		{{ form_label(form.email, 'Email', {'label_attr': {class: 'input-group-text'}}) }}
+		{{ form_errors(form.email) }}
+		{{ form_widget(form.email, {'attr': {class: 'form-control mb-3'}}) }}
 
 		{{ form_label(form.password, 'Mot de passe', {'label_attr': {class: 'input-group-text'}}) }}
 		{{ form_errors(form.password) }}

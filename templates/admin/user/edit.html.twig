@@ -14,9 +14,9 @@
 		{{ form_errors(form.username) }}
 		{{ form_widget(form.username, {'attr': {class: 'form-control mb-3'}}) }} #}
 
-		{{ form_label(form.username) }}
-		{{ form_widget(form.username, {'attr': {'value': user.username}}) }}
-		{{ form_errors(form.username) }}
+		{{ form_label(form.email) }}
+		{{ form_widget(form.email, {'attr': {'value': user.email}}) }}
+		{{ form_errors(form.email) }}
 
 		{{ form_widget(form.password, {'attr': {'value': user.password}}) }}
 		{{ form_errors(form.password) }}

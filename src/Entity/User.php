@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface
 {
@@ -43,13 +45,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=3, max=30)
      */
-    private $firstname;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(min=3, max=30)
-     */
-    private $lastname;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -66,6 +62,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $reset_token;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $isVerified=false;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -113,6 +114,21 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    public function getIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+    return $this->isVerified;
     }
 
     /**
@@ -166,29 +182,17 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
-    public function getFirstname(): ?string
+    public function getName(): ?string
     {
-        return $this->firstname;
+        return $this->name;
     }
 
-    public function setFirstname(?string $firstname): self
+    public function setName(?string $name): self
     {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(?string $lastname): self
-    {
-        $this->lastname = $lastname;
+        $this->name = $name;
 
         return $this;
     }

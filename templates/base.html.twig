@@ -131,13 +131,13 @@
 							{% else %}
 				{% if 'app_login' in app.request.get('_route') %}
 					<div>
-						<a class="navbar-brand ps-3" href="{{ path('register') }}">Sign up</a>
+						<a class="navbar-brand ps-3" href="{{ path('app_register') }}">Sign up</a>
 					</div>
 					<div>
 						<a class="navbar-brand ps-3" href="{{ path('contact') }}">Contact</a>
 					</div>
 				{% endif %}
-				{% if 'register' in app.request.get('_route') %}
+				{% if 'app_register' in app.request.get('_route') %}
 					<div>
 						<a class="navbar-brand ps-3" href="{{ path('app_login') }}">Login</a>
 					</div>
@@ -150,15 +150,16 @@
 						<a class="navbar-brand ps-3" href="{{ path('app_login') }}">Login</a>
 					</div>
 					<div>
-						<a class="navbar-brand ps-3" href="{{ path('register') }}">Sign up</a>
+						<a class="navbar-brand ps-3" href="{{ path('app_register') }}">Sign up</a>
 					</div>
 				{% endif %}
 						</div>
 							{% endif %}
 					</nav>
 	</div>
+
 			{% block body %}
-				
+
 			{% endblock %}
 
 			{# {% for type, messages in app.session.flashbag.all() %}
@@ -169,7 +170,9 @@
 				{% endfor %}
 			{% endfor %}
 			{% endblock %} #}
-
+{% for flash in app.flashes('success') %}
+            <div class="alert alert-success">{{ flash }}</div>
+        {% endfor %}
 
 				<footer class="py-4 bg-light mt-auto">
 					<div class="container-fluid px-4">
