@@ -28,7 +28,7 @@ security:
                 main:
                         lazy: true
                         provider: app_user_provider
-                        entry_point: App\Security\LoginFormAuthenticator
+                        # entry_point: App\Security\LoginFormAuthenticator
                         # login_throttling:
                         #         max_attempts: 5
                         #         interval: 10s

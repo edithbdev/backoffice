@@ -21,7 +21,17 @@
 
 	 <body class="sb-nav-fixed mt-3">
 		<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-			{% if app.user != null %}
+		// si le mail a été vérifier
+			{# {% if app.user.is_verified %}
+				<a class="navbar-brand" href="/">
+					<img src="/dist/assets/logo.png" alt="logo" width="30" height="30">
+				</a>
+			{% else %}
+				<a class="navbar-brand" href="/">
+					<img src="/dist/assets/logo.png" alt="logo" width="30" height="30">
+				</a>
+			{% endif %} #}
+			{% if app.user != null and app.user.isverified %}
 				<!-- Navbar Brand-->
 				<a class="navbar-brand ps-3" href="{{ path('home') }}">Accueil</a>
 				<!-- Sidebar Toggle-->
@@ -129,6 +139,7 @@
 							{{ app.user.username }}
 						</div>
 							{% else %}
+							{# {% if not is_granted('IS_AUTHENTICATED_FULLY') %} #}
 				{% if 'app_login' in app.request.get('_route') %}
 					<div>
 						<a class="navbar-brand ps-3" href="{{ path('app_register') }}">Sign up</a>
@@ -153,6 +164,11 @@
 						<a class="navbar-brand ps-3" href="{{ path('app_register') }}">Sign up</a>
 					</div>
 				{% endif %}
+					{# {% else %}
+					<div>
+						<a class="navbar-brand ps-3" href="{{ path('app_logout') }}">Logout {{app.user.email}}</a>
+						</div>
+						{% endif %} #}
 						</div>
 							{% endif %}
 					</nav>
@@ -170,9 +186,11 @@
 				{% endfor %}
 			{% endfor %}
 			{% endblock %} #}
-{% for flash in app.flashes('success') %}
-            <div class="alert alert-success">{{ flash }}</div>
-        {% endfor %}
+{% for message in app.flashes('success') %}
+			<h2 class="alert alert-warning text-center mt-4 mb-4" role="alert">
+				{{ message }}
+			</h2>
+		{% endfor %}
 
 				<footer class="py-4 bg-light mt-auto">
 					<div class="container-fluid px-4">

@@ -10,13 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class SecurityController extends AbstractController
 {
@@ -51,89 +48,6 @@ class SecurityController extends AbstractController
             'error' => $error,
         ]);
     }
-
-//    /**
-//     * @Route("/verify/email", name="app_verify_email")
-//     */
-//     public function verifyUserEmail(Request $request): Response
-//     {
-//         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-//         // validate email confirmation link, sets User::isVerified=true and persiststry {$this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-//         try {
-//             $this->get('app.email_verifier')->handleEmailConfirmation($request, $this->getUser());
-//         } catch (VerifyEmailExceptionInterface $exception) {
-//             $this->addFlash('verify_email_error', $exception->getReason());
-
-//             return $this->redirectToRoute('register');
-//         }
-
-//         $user = $this->getUser();
-//         $user->setIsVerified(true);
-//         $this->getDoctrine()->getManager()->flush();
-
-//         $this->addFlash('success', 'Your email address has been verified.');
-
-//         return $this->redirectToRoute('home');
-//     }
-
-    // /**
-    //  * @Route("/register", name="register", methods={"GET", "POST"})
-    //  * @param Request $request
-    //  * @param EntityManagerInterface $entityManager
-    //  * @param UserPasswordEncoderInterface $passwordEncoder
-    //  * @param VerifyEmailHelperInterface $verifyEmailHelper
-    //  * @return Response
-    //  */
-    // public function register(
-    //     Request $request,
-    //     EntityManagerInterface $entityManager,
-    //     UserPasswordEncoderInterface $passwordEncoder,
-    //     VerifyEmailHelperInterface $verifyEmailHelper
-    // ): Response {
-    //     // Create a new user
-    //     $user = new User();
-    //     $form = $this->createForm(UserType::class, $user);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         // Encode the plain password
-    //         $user->setPassword(
-    //             $passwordEncoder->encodePassword(
-    //                 $user,
-    //                 $form->get('plainPassword')->getData()
-    //             )
-    //         );
-
-    //         $user->setRoles(['ROLE_USER']);
-    //         $user->setApiToken(bin2hex(random_bytes(60)));
-
-    //         // Set the user as not verified
-    //         $user->setIsVerified(false);
-
-    //         // Generate a unique token for email verification
-    //         $token = $verifyEmailHelper->generateToken();
-    //         $user->setVerifyToken($token);
-
-    //         // Save the user
-    //         $entityManager->persist($user);
-    //         $entityManager->flush();
-
-    //         // Send email verification
-    //         $verifyEmailHelper->sendEmailConfirmation($user);
-
-    //         // Flash message
-    //         $this->addFlash('success', 'We have sent you an email. Please click on the link to verify your email address.');
-
-    //         return $this->redirectToRoute('home');
-    //     }
-
-    //     return $this->render('security/register.html.twig', [
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
-
-
 
     /**
      * @Route("/profile/{user}", name="profile", methods={"GET", "POST"})
@@ -189,7 +103,7 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/logout", name="app_logout")
-     */
+    */
     public function logout(): void
     {
         throw new \LogicException(

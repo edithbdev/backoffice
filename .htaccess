@@ -1,16 +1,2 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 RewriteCond %{REQUEST_URI} !^/public/
 RewriteRule ^(.*)$ /public/$1 [L]
-=======
-RewriteCond %{REQUEST_URI} !^/public/
-RewriteRule ^(.*)$ /public/$1 [L]
->>>>>>> 28d8541 (add changes)
-=======
-RewriteCond %{REQUEST_URI} !^/public/
-RewriteRule ^(.*)$ /public/$1 [L]
-=======
-RewriteCond %{REQUEST_URI} !^/public/
-RewriteRule ^(.*)$ /public/$1 [L]
->>>>>>> 31e79d82632a297832f3c0b0279eb18f58d65046
->>>>>>> ca8ca26dd4c74638d1fc12f09508ae3ad5d5dec8

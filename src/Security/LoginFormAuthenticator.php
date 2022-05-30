@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
@@ -54,6 +53,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
             && $request->isMethod('POST');
+
+        return true;
     }
 
     public function getCredentials(Request $request)
@@ -82,7 +83,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Bad credentials.');
+            throw new CustomUserMessageAuthenticationException('Bad Credentials or You don\'t confirm your email address before logging in.');
         }
 
         return $user;
@@ -101,30 +102,23 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?RedirectResponse
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?RedirectResponse
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+  if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
-        }
-
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        return new RedirectResponse($this->urlGenerator->generate('home'));
-
+    }
         // check if user has verified his email
-        $verified = $this->entityManager->getRepository(User::class)->findOneBy(['isVerified' => true]);
-
-        // Get user email address
+        $verified =  $this->entityManager->getRepository(User::class)->findOneBy(['isVerified' => true]);
         $email = $this->getCredentials($request)['email'];
-
-        if ($verified) {
-             return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
+        // $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+        if($verified) {
+            return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
         } else {
-            return new Response ('<html><body>Your email '.$email['email'].' is not verified. Please check your email for the verification link.</body></html>');
+             return new Response ('<html><body>Your email '.$email['email'].' is not verified. Please check your email for the verification link.</body></html>');
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
+        return new RedirectResponse($this->urlGenerator->generate('app_login'));
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-        // return new RedirectResponse($this->urlGenerator->generate('home'));
     }
 
     protected function getLoginUrl(): string
@@ -135,61 +129,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function authenticate(Request $request): Passport
     {
         $credentials = $this->getCredentials($request);
-
         $user = $this->getUser($credentials, $this->getUserProvider());
 
         $passport = new Passport(
-            new UserBadge($user),
-            new PasswordCredentials($credentials['password']),
-            new CsrfTokenBadge($credentials['csrf_token']),
-            new CustomCredentials($this->getPassword($credentials))
+            new CustomCredentials($user->getEmail()),
+            [new UserBadge($user)]
         );
 
-        if (!$passport->isValid()) {
-            throw new AuthenticationException('The presented passport is invalid.');
+        if ($user->getPassword() === null) {
+            $passport->addBadge(new PasswordUpgradeBadge());
         }
+
+        $passport->addBadge(new CsrfTokenBadge($this->csrfTokenManager->getToken('authenticate')));
 
         return $passport;
     }
-    // {
-    //     $password = $request->request->get('password', '');
-    //     $email = $request->request->get('email', '');
-    //     $csrfToken = $request->request->get('csrf_token');
-
-    //     $request->getSession()->set(Security::LAST_USERNAME, $email);
-
-        // ... get the $user from the $username and validate no
-        // parameter is empty
-
-        // return new Passport($username, new PasswordCredentials($password), [
-        //     // $this->userRepository must implement PasswordUpgraderInterface
-        //     new PasswordUpgradeBadge($password, $this->userRepository),
-        //     new CsrfTokenBadge('login', $csrfToken),
-        // ]);
-
-        //  return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
-        //     }),
-        //     [
-        //         new CsrfTokenBadge('app_login', $csrfToken),
-        //     ]
-        // );
-
-
-//         return new Passport(
-//             new UserBadge($email),
-//             new PasswordCredentials($password),
-//             [
-//                 new CsrfTokenBadge('app_login', $csrfToken),
-//             ]
-//         );
-// }
-
-    // public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    // {
-    //     $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-
-    //     return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
-    // }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?RedirectResponse
     {
@@ -197,32 +151,5 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
     }
-    // {
-    //     $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-
-    //     $data = [
-    //         // you may want to customize or obfuscate the message first
-    //         'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
-
-    //         // or to translate this message
-    //         // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
-    //     ];
-
-    //     // Afficher le message et rediriger sur la page de login
-
-    //     return
-
-
-
-
-
-        //  return new RedirectResponse(
-        //     $this->router->generate('app_login')
-        // );
-
-        // return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
-
-
-
 
 }
