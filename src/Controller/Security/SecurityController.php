@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Security;
 
 use App\Entity\User;
 use App\Form\UserType;
@@ -32,6 +32,11 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        // if user had reset password and is now logging in, redirect to home page
+        if ($session->has('reset_password')) {
+            return $this->redirectToRoute('home');
+        }
+
         // Get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // Last username entered by the user
@@ -50,7 +55,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/profile/{user}", name="profile", methods={"GET", "POST"})
+     * @Route("/profil/{user}", name="profil", methods={"GET", "POST"})
      * @ParamConverter("user", options={"mapping": {"user": "username"}})
      * @param User $user
      * @param Request $request
@@ -59,7 +64,7 @@ class SecurityController extends AbstractController
      * @param Session $session
      * @return Response
      */
-    public function profile(
+    public function profil(
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
@@ -69,7 +74,7 @@ class SecurityController extends AbstractController
         // We get the user who is connected
         $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
 
-        // If the user is not connected, he can't access to the profile page
+        // If the user is not connected, he can't access to the profil page
         if (
             $user->getId() != $this->getUser()->getId() &&
             $user->getUsername() != $this->getUser()->getUsername()
@@ -81,7 +86,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Update the user profile
+        // Update the user profil
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 

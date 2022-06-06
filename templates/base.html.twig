@@ -24,7 +24,6 @@
 
 	 <body class="sb-nav-fixed mt-3">
 		<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-		// si le mail a été vérifier
 			{# {% if app.user.is_verified %}
 				<a class="navbar-brand" href="/">
 					<img src="/dist/assets/logo.png" alt="logo" width="30" height="30">
@@ -49,7 +48,7 @@
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 							<li>
-								<a class="dropdown-item" href="{{ path('profile', {'user': app.user.username}) }}">Profile</a>
+								<a class="dropdown-item" href="{{ path('profil', {'user': app.user.username|e('html')}) }}">Profil</a>
 							</li>
 							<li><hr class="dropdown-divider"/></li>
 							<li>
@@ -139,7 +138,7 @@
 
 						<div class="sb-sidenav-footer">
 							<div class="small">Logged in as:</div>
-							{{ app.user.username }}
+							{{ app.user.username|e('html') }}
 						</div>
 							{% else %}
 							{# {% if not is_granted('IS_AUTHENTICATED_FULLY') %} #}

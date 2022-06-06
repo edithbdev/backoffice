@@ -32,6 +32,7 @@ class UserAdminController extends AbstractController
     public function index(UserRepository $users): Response
     {
         // All users
+        $this->denyAccessUnlessGranted('POST_READ, $users');
         return $this->render('admin/user/index.html.twig', [
             'users' => $users->findBy([], ['username' => 'ASC']),
         ]);
@@ -87,6 +88,7 @@ class UserAdminController extends AbstractController
     public function show(User $user): Response
     {
         //accès géré dans le security.yaml
+         $this->denyAccessUnlessGranted('POST_READ, $user');
         return $this->render('admin/user/show.html.twig', [
             'user' => $user,
         ]);

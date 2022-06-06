@@ -26,6 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(min=3, max=20)
+     * @Assert\Regex( pattern="/^[a-zA-Z0-9]+$/", message="Email can only contain letters and numbers")
      */
     private $email;
 
@@ -39,6 +40,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank()
      * @Assert\Length(min=6, max=4096)
+     * @Assert\NotEqualTo(propertyPath="name" , message="Password cannot be the same as name")
+     * @Assert\NotEqualTo(propertyPath="email" , message="Password cannot be the same as email")
      */
     private $password;
 
