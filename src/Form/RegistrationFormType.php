@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,8 +25,29 @@ class RegistrationFormType extends AbstractType
         array $options
     ): void {
         $builder
-            ->add('email')
-            ->add('name')
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
+                'mapped' => true,
+                'required' => true,
+                'help' =>
+                    'Your email address will be used to log in to the backoffice.',
+                'help_attr' => [
+                    'class' => 'help-block',
+                    'style' =>
+                        'color: #7e7b7b; font-size: 0.8em; font-style: italic;',
+                ],
+                'invalid_message' =>
+                    'Your email address is not valid. Please enter a valid email address.',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter your email address.',
+                    ]),
+                ],
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'Name',
+                'required' => false,
+            ])
             ->add('phone', NumberType::class, [
                 'label' => 'Phone Number',
                 'required' => false,

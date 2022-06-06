@@ -85,7 +85,7 @@ class RegistrationController extends AbstractController
                 'main' // firewall name in security.yaml
             );
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Une erreur est survenue lors de l\'enregistrement.');
+                $this->addFlash('error', 'Une erreur est survenue lors de l\'enregistrement. Votre compte est déjà utilisé.');
                 return $this->redirectToRoute('app_login');
             }
 

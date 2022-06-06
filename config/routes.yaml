@@ -3,4 +3,4 @@
 #    controller: App\Controller\DefaultController::index
 gregwar_captcha_routing:
     resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"
-    prefix: /_gcb
+    # prefix: /_gcb
