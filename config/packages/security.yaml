@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 security:
         # The name of the security group.
         enable_authenticator_manager: true
@@ -96,3 +97,103 @@ security:
                 # - { path: ^/user/, role: ROLE_ADMIN }
                # require ROLE_ADMIN for /admin*
                 - { path: '^/admin', roles: ROLE_ADMIN }
+=======
+security:
+        # The name of the security group.
+        enable_authenticator_manager: true
+        # the exception thrown is of type: UserNotFoundException and it includes the given not found user identifier.
+        hide_user_not_found: false
+        password_hashers:
+                legacy:
+                        algorithm: sha256
+                        encode_as_base64: false
+                        iterations: 1
+
+                # auto hasher with default options for the User class (and children)
+                App\Entity\User:
+                        algorithm: sodium
+                        migrate_from:
+                                - bcrypt
+                                - legacy
+
+                # auto hasher with custom options for all PasswordAuthenticatedUserInterface instances
+                Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                        algorithm: 'auto'
+                        cost:      15
+
+        encoders:
+                App\Entity\User:
+                        algorithm: auto
+
+        # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+        providers:
+                # used to reload user from session & other features (e.g. switch_user)
+                app_user_provider:
+                        entity:
+                                class: App\Entity\User
+                                property: email
+        firewalls:
+                dev:
+                        pattern: ^/(_(profiler|wdt)|css|images|js)/
+                        security: false
+                main:
+                        lazy: true
+                        provider: app_user_provider
+                        # entry_point: App\Security\LoginFormAuthenticator
+                        # login_throttling:
+                        #         max_attempts: 5
+                        #         interval: 10s
+                        guard:
+                                authenticators:
+                                - App\Security\LoginFormAuthenticator
+                        # custom_authenticator: App\Security\LoginFormAuthenticator
+                        logout:
+                                path: app_logout
+                                # where to redirect after logout
+                                target: app_login
+                        remember_me:
+                                secret:  '%kernel.secret%' # required
+                                lifetime: 604800 # 1 week in seconds
+                                name: remember_me
+                                always_remember_me: true
+                                signature_properties: ['password']
+                                token_provider:
+                                    doctrine: true
+                                path: app_login
+                        switch_user: true
+                                # by default, the feature is enabled by checking a
+                                # checkbox in the login form (see below), uncomment the
+                                # following line to always enable it.
+        role_hierarchy:
+                ROLE_USER: ROLE_USER
+                ROLE_ADMIN: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+
+                # activate different ways to authenticate
+                # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+                # https://symfony.com/doc/current/security/impersonating_user.html
+                # switch_user: true
+
+        # Easy way to control access for large sections of your site
+        # Note: Only the *first* access control that matches will be used
+        access_control:
+                - { path: ^/logout, roles: ROLE_USER }
+
+                # permet de rendre la route /new accessible pour les utilisateurs anonymes (non connecté)
+                - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+                - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+                - { path: ^/contact, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+                - { path: ^/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+                - { path: ^(?!/(reset-password|profil)), roles: ROLE_USER }
+                # - { path: ^(?!/(login|register|reset-password|profil)), roles: ROLE_USER }
+                # - { path: ^/profil, roles: ROLE_USER }
+
+                # - { path: ^/admin/user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+                # bloque toutes les routes commençant par /user sauf la ligne du dessus
+                # - { path: ^/user, roles: ROLE_USER }
+                # - { path: ^/user, roles: IS_AUTHENTICATED_FULLY }
+                # - { path: ^/user/, role: ROLE_ADMIN }
+               # require ROLE_ADMIN for /admin*
+                - { path: '^/admin', roles: ROLE_ADMIN }
+>>>>>>> ad4dac7d414727355fd87944b3ea0fda105cef57

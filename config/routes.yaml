@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+=======
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+>>>>>>> ad4dac7d414727355fd87944b3ea0fda105cef57
