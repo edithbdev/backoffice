@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Security;
+namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/profil/{user}", name="profil", methods={"GET", "POST"})
+     * @Route("/profile/{user}", name="profile", methods={"GET", "POST"})
      * @ParamConverter("user", options={"mapping": {"user": "username"}})
      * @param User $user
      * @param Request $request
@@ -64,7 +64,7 @@ class SecurityController extends AbstractController
      * @param Session $session
      * @return Response
      */
-    public function profil(
+    public function profile(
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
@@ -74,7 +74,7 @@ class SecurityController extends AbstractController
         // We get the user who is connected
         $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
 
-        // If the user is not connected, he can't access to the profil page
+        // If the user is not connected, he can't access to the profile page
         if (
             $user->getId() != $this->getUser()->getId() &&
             $user->getUsername() != $this->getUser()->getUsername()
@@ -86,7 +86,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Update the user profil
+        // Update the user profile
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -104,56 +104,6 @@ class SecurityController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
         ]);
-    }
-
-    // route pour mettre en statut isDeleted à true pour supprimer le compte
-    /**
-     * @Route("/profil/delete/{user}", name="delete_user", methods={"GET", "POST"})
-     * @ParamConverter("user", options={"mapping": {"user": "username"}})
-     * @param User $user
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param Session $session
-     * @return Response
-     */
-
-    public function delete(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder,
-        Session $session,
-        UserRepository $userRepository
-    ): Response {
-        // We get the user who is connected
-        $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
-
-        // If the user is not connected, he can't access to the profil page
-        if (
-            $user->getId() != $this->getUser()->getId() &&
-            $user->getUsername() != $this->getUser()->getUsername()
-        ) {
-            $session->set(
-                'message',
-                'Vous ne pouvez pas supprimer cet utilisateur'
-            );
-            return $this->redirectToRoute('home');
-        }
-
-        // Delete the user account
-        $user = $userRepository->findOneBy(['isDeleted' => false]);
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->setIsDeleted(true);
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Votre compte a bien été supprimé.');
-
-            return $this->redirectToRoute('app_logout');
-        }
     }
 
     /**
