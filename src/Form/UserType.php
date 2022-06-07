@@ -6,14 +6,15 @@ use App\Entity\User;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
-use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -26,75 +27,65 @@ class UserType extends AbstractType
         array $options
     ): void {
         $builder
-            ->add('username', TextType::class, [
-                'label' => 'Pseudo',
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
                 'mapped' => true,
                 'required' => true,
-                'empty_data' => '',
-                'help' =>
-                    'Votre nom d\'utilisateur doit contenir entre 3 et 20 caractères',
-                'help_attr' => [
-                    'class' => 'help-block',
-                    'style' =>
-                        'color: #7e7b7b; font-size: 0.8em; font-style: italic;',
-                ],
                 'invalid_message' =>
-                    'Votre nom d\'utilisateur doit contenir entre 3 et 20 caractères',
+                    'Your email address is not valid. Please enter a valid email address.',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer votre nom d\'utilisateur',
-                    ]),
-                    new Length([
-                        'min' => 3,
-                        'max' => 20,
-                        'minMessage' =>
-                            'Votre nom d\'utilisateur doit contenir au moins {{ limit }} caractères',
-                        'maxMessage' =>
-                            'Votre nom d\'utilisateur ne peut pas contenir plus de {{ limit }} caractères',
+                        'message' => 'Please enter your email address.',
                     ]),
                 ],
             ])
-            ->add('password', RepeatedType::class, [
+            ->add('name', TextType::class, [
+                'label' => 'Name',
+                'required' => false,
+            ])
+            ->add('phone', NumberType::class, [
+                'label' => 'Phone Number',
+                'required' => false,
+            ])
+            ->add('plainPassword', RepeatedType::class, [
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe ne correspondent pas',
+                'invalid_message' => 'The password fields must match.',
                 'required' => true,
-                'empty_data' => '',
                 'mapped' => false,
+                // 'attr' => ['autocomplete' => 'new-password'],
+                 'options'  => ['attr' => ['class' => 'password-field']],
                 'first_options' => [
-                    'label' => 'Mot de passe',
+                    'label' => 'Password',
                     'help' =>
-                        'Le mot de passe doit être de 6 caractères minimum',
+                        'Your password must be at least 6 characters long.',
                     'help_attr' => [
                         'class' => 'help-block',
                         'style' =>
                             'color: #7e7b7b; font-size: 0.8em; font-style: italic,',
-                    ],
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'Veuillez entrer votre mot de passe',
-                        ]),
-                        new Length([
-                            'min' => 6,
-                            'max' => 4096,
-                            'minMessage' =>
-                                'Votre mot de passe doit contenir au moins {{ limit }} caractères',
-                        ]),
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Répétez le mot de passe',
-                    'help' => 'Le mot de passe doit être identique',
+                    'label' => 'Repeat Password',
+                    'help' => 'Please repeat your password.',
                     'help_attr' => [
                         'class' => 'help-block',
                         'style' =>
                             'color: #7e7b7b; font-size: 0.8em; font-style: italic,',
                     ],
-                    'constraints' => [
-                        new NotBlank([
-                            'message' =>
-                                'Les deux mots de passe saisies sont différents',
-                        ]),
-                    ],
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' =>
+                            'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
                 ],
             ])
             ->add('roles', ChoiceType::class, [
@@ -111,26 +102,10 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'label' => 'Date de création',
-            ])
-            ->add('captcha', CaptchaType::class, [
-                'width' => 160,
-                'height' => 50,
-                'length' => 4,
-                'quality' => 100,
-                'label' => 'Veuillez saisir les 4 caractères',
-                'background_color' => [255, 255, 255],
-                'invalid_message' => 'Le captcha est invalide',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez entrer le captcha',
-                    ]),
-                ],
-                'mapped' => false,
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Envoyer',
-                'attr' => ['class' => 'btn btn-primary'],
             ]);
+            // ->add('save', SubmitType::class, [
+            //     'label' => 'Create Account',
+            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

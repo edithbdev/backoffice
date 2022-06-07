@@ -1,37 +1,57 @@
 {% extends 'base.html.twig' %}
-{% block body %}
-	<div class="col-sm-12">
-		<div class="form-group">
-				<a href="{{ path('home') }}" class="btn btn-default">
-					<i class="fa fa-arrow-circle-left"> Retour à l'accueil</i>
-				</a>
-		</div>
-        <h1>Me contacter</h1>
-        <p>
-        Une question, une remarque ?
-        </p>
-        <br>
-		{{ form_start(form) }}
-		{{ form_errors(form) }}
-		<div class="form-group">
-			{{ form_label(form.email) }}
-			{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
-		</div>
-		<div class="form-group">
-			{{ form_label(form.nom) }}
-			{{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
-		</div>
-		<div class="form-group">
-			{{ form_label(form.message) }}
-			{{ form_widget(form.message, { 'attr': {'class': 'form-control'} }) }}
-		</div>
-		<div class="form-group">
-			{{form_row(form.captcha)}}
-		</div>
-		<div class="form-group">
-			<input type="submit" value="Envoyer" class="btn btn-success"/>
-		</div>
-
-		{{ form_end(form) }}
-	</div>
+{% block title %}Contact
 {% endblock %}
+{% block body %}
+<div id="layoutAuthentication">
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<div class="row justify-content-center">
+					<div class="col-lg-7">
+						<div class="card shadow-lg border-0 rounded-lg mt-5">
+							<div class="card-header">
+								<h3 class="text-center font-weight-light my-4">Contact</h3>
+							</div>
+							<div class="card-body">
+								<div class="small mb-3 text-muted">A question, a suggestion ? Please contact me by filling the form below.</div>
+								{{ form_start(form) }}
+								{{ form_errors(form) }}
+
+								<div class="form-floating mb-3">
+									{{ form_label(form.email) }}
+									{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+								</div>
+								<div class="form-floating mb-3">
+									{{ form_label(form.name) }}
+									{{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+								</div>
+								<div class="form-group mb-3">
+									{{ form_label(form.message) }}
+									{{ form_widget(form.message, { 'attr': {'class': 'form-control'} }) }}
+								</div>
+								<div class="row mb-3 mt-3">
+											<div class="col-12 mt-4">
+												<div class="custom-control custom-checkbox">
+													{{form_widget(form.captcha)}}
+													{{form_errors(form.captcha)}}
+													{{form_help(form.captcha)}}
+													{{form_label(form.captcha)}}
+												</div>
+											</div>
+								</div>
+								<div class="row">
+								<div class="mt-4 mb-3 d-flex justify-content-center">
+											<button class="btn btn-lg btn-primary btn-block" type="submit">Send Message</button>
+											{{ form_end(form) }}
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+
+		{% endblock %}

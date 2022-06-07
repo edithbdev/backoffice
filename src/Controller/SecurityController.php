@@ -23,11 +23,18 @@ class SecurityController extends AbstractController
      * @param Session $session
      * @return Response
      */
-    public function login(AuthenticationUtils $authenticationUtils, Session $session): Response
-    {
-       // If already logged in, redirect to home page
+    public function login(
+        AuthenticationUtils $authenticationUtils,
+        Session $session
+    ): Response {
+        // If already logged in, redirect to home page
         if ($this->getUser()) {
-            return $this->redirectToRoute('target_path');
+            return $this->redirectToRoute('home');
+        }
+
+        // if user had reset password and is now logging in, redirect to home page
+        if ($session->has('reset_password')) {
+            return $this->redirectToRoute('home');
         }
 
         // Get the login error if there is one
@@ -35,71 +42,15 @@ class SecurityController extends AbstractController
         // Last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        if($session->has('message'))
-            {
-                    $message = $session->get('message');
-                    $session->remove('message'); // we remove the message from the session
-                    $return['message'] = $message; // we add the message to the array of parameters
-            }
-
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
-    }
-
-    /**
-     * @Route("/register", name="register", methods={"GET", "POST"})
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param Session $session
-     * @return Response
-     */
-    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, Session $session): Response
-    {
-        // Security test, if the user is not connected, he can't access to the register page
-        $user = $this->getUser();
-        if($user)
-        {
-                $session->set("message", "Vous ne pouvez pas créer un compte lorsque vous êtes connecté");
-                 return $this->redirectToRoute('home');
-        }
-        // si le formulaire contient des errors, on les récupère
-        // if($session->has('errors'))
-        // {
-        //     $errors = $session->get('errors');
-        //     $session->remove('errors');
-        // }
-        // else
-        // {
-        //     $errors = [];
-        // }
-
-
-        // Create a new user
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-             $newPassword = $form->get('password')->getData();
-            if ($newPassword !=null) {
-               $encodedPassword = $passwordEncoder->encodePassword($user, $newPassword);
-               $user->setPassword($encodedPassword);
-            }
-            $user->setApiToken(md5(uniqid()));
-            $user->setRoles(['ROLE_USER']);
-            $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-              $this->addFlash('success', 'Votre compte a bien été créé, vous pouvez vous connecter');
-
-            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+        if ($session->has('message')) {
+            $message = $session->get('message');
+            $session->remove('message'); // we remove the message from the session
+            $return['message'] = $message; // we add the message to the array of parameters
         }
 
-        return $this->render('security/register.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-            // 'errors' => $errors
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
         ]);
     }
 
@@ -112,16 +63,26 @@ class SecurityController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Session $session
      * @return Response
-    */
-    public function profile(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, Session $session, UserRepository $userRepository): Response
-    {
+     */
+    public function profile(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordEncoderInterface $passwordEncoder,
+        Session $session,
+        UserRepository $userRepository
+    ): Response {
         // We get the user who is connected
         $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
 
         // If the user is not connected, he can't access to the profile page
-        if ($user->getId() != $this->getUser()->getId() && $user->getUsername() != $this->getUser()->getUsername())
-        {
-            $session->set("message", "Vous ne pouvez pas modifier cet utilisateur");
+        if (
+            $user->getId() != $this->getUser()->getId() &&
+            $user->getUsername() != $this->getUser()->getUsername()
+        ) {
+            $session->set(
+                'message',
+                'Vous ne pouvez pas modifier cet utilisateur'
+            );
             return $this->redirectToRoute('home');
         }
 
@@ -129,16 +90,12 @@ class SecurityController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->persist($user);
             $entityManager->flush();
 
-        $this->addFlash(
-                'success',
-                'Votre compte a bien été modifié.'
-            );
+            $this->addFlash('success', 'Votre compte a bien été modifié.');
 
             return $this->redirectToRoute('home');
         }
@@ -151,9 +108,11 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/logout", name="app_logout")
-     */
+    */
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException(
+            'This method can be blank - it will be intercepted by the logout key on your firewall.'
+        );
     }
 }

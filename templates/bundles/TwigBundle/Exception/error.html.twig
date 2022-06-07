@@ -1,12 +1,28 @@
 {# templates/bundles/TwigBundle/Exception/error404.html.twig #}
-{# pour test : https://localhost:8000/_error/404 #}
+{# pour test : https://localhost:8000/_error/ #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Erreurs</h1>
 
-    <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('home') }}">return to the homepage</a>.
-    </p>
+ <div id="layoutError">
+            <div id="layoutError_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="text-center mt-4">
+                                    <h1 class="display-1">Error</h1>
+                                    <p> The requested page couldn't be located. Checkout for any URL
+                                    misspelling</p>
+                                    <a href="{{ path('home') }}">
+                                        <i class="fas fa-arrow-left me-1"></i>
+                                        Return to Dashboard
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
 {% endblock %}
+

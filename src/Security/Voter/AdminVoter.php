@@ -11,7 +11,7 @@ class AdminVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['POST_NEW', 'POST_EDIT', 'POST_DELETE'])
+        return in_array($attribute, ['POST_READ, POST_NEW', 'POST_EDIT', 'POST_DELETE'])
             && $subject instanceof \App\Entity\Project
             || $subject instanceof \App\Entity\User;
 
@@ -26,6 +26,11 @@ class AdminVoter extends Voter
         }
 
         switch ($attribute) {
+            case 'POST_READ':
+                if (\in_array('ROLE_ADMIN', $user->getRoles())) {
+                    return true;
+                }
+                break;
             case 'POST_NEW':
                 if (\in_array('ROLE_ADMIN', $user->getRoles())) {
                     return true;

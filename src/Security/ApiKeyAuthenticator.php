@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+// use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
 class ApiKeyAuthenticator extends AbstractAuthenticator
@@ -47,14 +47,14 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
     public function getCredentials (Request $request)
     {
          $credentials = [
-            'username' => $request->request->get('username'),
+            'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
             'X-AUTH-TOKEN' => $request->headers->get('X-AUTH-TOKEN'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['username']
+            $credentials['email']
         );
 
         return $credentials;
@@ -73,7 +73,7 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
         }
 
         $user = $this->entityManager->getRepository(User::class)
-            ->findOneBy(['apiToken' => $apiToken], ['username' => $credentials['username']]);
+            ->findOneBy(['apiToken' => $apiToken], ['email' => $credentials['email']]);
 
         if (!$user) {
             // fail authentication with a custom error

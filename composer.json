@@ -12,7 +12,6 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "friendsofsymfony/rest-bundle": "^3.2",
-        "gregwar/captcha-bundle": "^2.2",
         "jms/serializer-bundle": "^4.0",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.3",
@@ -28,12 +27,12 @@
         "symfony/google-mailer": "5.4.*",
         "symfony/http-client": "5.4.*",
         "symfony/mailer": "5.4.*",
-        "symfony/maker-bundle": "^1.36",
         "symfony/mime": "5.4.*",
         "symfony/password-hasher": "5.4.*",
         "symfony/property-access": "5.4.*",
         "symfony/property-info": "5.4.*",
         "symfony/proxy-manager-bridge": "5.4.*",
+        "symfony/rate-limiter": "5.4.*",
         "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
         "symfony/serializer": "5.4.*",
@@ -41,10 +40,14 @@
         "symfony/twig-bundle": "5.4.*",
         "symfony/validator": "5.4.*",
         "symfony/yaml": "5.4.*",
+        "symfonycasts/reset-password-bundle": "^1.13",
+        "symfonycasts/verify-email-bundle": "^1.10",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^3.3"
+        "twig/twig": "^3.3",
+        "victor-prdh/recaptcha-bundle": "^1.6"
     },
     "require-dev": {
+        "symfony/maker-bundle": "^1.43",
         "symfony/stopwatch": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*"
     },

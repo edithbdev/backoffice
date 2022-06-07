@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-		{% trans_default_domain "messages" %}
+		{# {% trans_default_domain "messages" %} #}
 {% block title %}Inscription
 {% endblock %}
 {% block body %}
@@ -31,7 +31,12 @@
 					<input type="password" id="verifpass" required>
 				</div>
 				<div class="form-group">
-					{{form_row(form.captcha)}}
+				// translation captcha : {{ 'captcha.label'|'Renew' }}
+					{{ form_label(form.captcha) }}
+					{{ form_widget(form.captcha, {'attr': {'class': 'form-control'}}) }}
+					{{ form_errors(form.captcha) }}
+					{{ form_help(form.captcha) }}
+					{# {{form_row(form.captcha)}} #}
 				</div>
 				<div class="col-12">
 					{{ form_widget(form.roles, { 'attr': {'class': 'd-none'} }) }}
