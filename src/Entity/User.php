@@ -73,6 +73,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $isDeleted = false;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private $created_At;
@@ -145,6 +150,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     return $this->isVerified;
     }
 
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
+        return $this;
+    }
+    
     /**
      * @see UserInterface
      */

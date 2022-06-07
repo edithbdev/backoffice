@@ -4,8 +4,8 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -52,33 +52,6 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Phone Number',
                 'required' => false,
             ])
-            ->add('captcha', CaptchaType::class, [
-                'width' => 140,
-                'height' => 40,
-                'length' => 5,
-                'quality' => 100,
-                // bouton pour afficher le captcha
-                'as_url' => true,
-                'reload' => true,
-                'label' => 'Please enter the text displayed in the image',
-                'background_color' => [255, 255, 255],
-                'invalid_message' => 'The captcha code is invalid.',
-                'constraints' => [
-                    new NotBlank([
-                        'message' =>
-                            'Please enter the text displayed in the image.',
-                    ]),
-                ],
-                'mapped' => false,
-            ])
-            // ->add('agreeTerms', CheckboxType::class, [
-            //     'mapped' => false,
-            //     'constraints' => [
-            //         new IsTrue([
-            //             'message' => 'You should agree to our terms.',
-            //         ]),
-            //     ],
-            // ])
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -119,7 +92,22 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ]);
+            ])
+            ->add('recaptcha', ReCaptchaType::class,
+                [
+                    'mapped' => false,
+                    'required' => true,
+                    'invalid_message' => 'The captcha is not valid.',
+                    'constraints' => [
+                        new IsTrue([
+                            'message' => 'Please verify that you are not a robot.',
+                        ]),
+                        new NotBlank([
+                            'message' => 'Please verify that you are not a robot.',
+                        ]),
+                    ],
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

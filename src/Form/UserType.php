@@ -6,7 +6,6 @@ use App\Entity\User;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
-use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -103,10 +102,10 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'label' => 'Date de création',
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Create Account',
             ]);
+            // ->add('save', SubmitType::class, [
+            //     'label' => 'Create Account',
+            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

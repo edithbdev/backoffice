@@ -9,7 +9,6 @@ use Symfony\Component\Mime\Crypto\DkimSigner;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 class ContactController extends AbstractController
 {

@@ -97,11 +97,14 @@
             "./config/packages/fos_rest.yaml"
         ]
     },
-    "gregwar/captcha": {
-        "version": "v1.1.9"
-    },
-    "gregwar/captcha-bundle": {
-        "version": "v2.2.0"
+    "google/recaptcha": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.1",
+            "ref": "e5a4aa21f2e98d7440ae9aab6b56e307f99dd084"
+        }
     },
     "jms/metadata": {
         "version": "2.6.1"
@@ -513,6 +516,18 @@
     },
     "twig/twig": {
         "version": "v3.3.7"
+    },
+    "victor-prdh/recaptcha-bundle": {
+        "version": "1.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.5",
+            "ref": "f604d862b3ce4434d131a0e9b3a2eb7bb1784aff"
+        },
+        "files": [
+            "./config/packages/recaptcha.yaml"
+        ]
     },
     "webmozart/assert": {
         "version": "1.10.0"

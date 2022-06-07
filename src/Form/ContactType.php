@@ -6,7 +6,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ContactType extends AbstractType
@@ -62,24 +61,6 @@ class ContactType extends AbstractType
                     ]),
                 ],
                 'translation_domain' => 'messages',
-            ])
-            ->add('captcha', CaptchaType::class, [
-                'width' => 140,
-                'height' => 40,
-                'length' => 5,
-                'quality' => 100,
-                'as_url' => true,
-                'reload' => true,
-                'label' => 'Please enter the text displayed in the image',
-                'background_color' => [255, 255, 255],
-                'invalid_message' => 'The captcha code is invalid.',
-                'constraints' => [
-                    new NotBlank([
-                        'message' =>
-                            'Please enter the text displayed in the image.',
-                    ]),
-                ],
-                'mapped' => false,
             ])
         ;
     }

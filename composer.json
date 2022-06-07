@@ -12,7 +12,6 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "friendsofsymfony/rest-bundle": "^3.2",
-        "gregwar/captcha-bundle": "^2.2",
         "jms/serializer-bundle": "^4.0",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.3",
@@ -44,7 +43,8 @@
         "symfonycasts/reset-password-bundle": "^1.13",
         "symfonycasts/verify-email-bundle": "^1.10",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^3.3"
+        "twig/twig": "^3.3",
+        "victor-prdh/recaptcha-bundle": "^1.6"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.43",

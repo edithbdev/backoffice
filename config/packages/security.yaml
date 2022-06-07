@@ -82,9 +82,11 @@ security:
                 # permet de rendre la route /new accessible pour les utilisateurs anonymes (non connecté)
                 - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
                 - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+                - { path: ^/contact, roles: IS_AUTHENTICATED_ANONYMOUSLY }
                 - { path: ^/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-                - { path: ^(?!/(login|register|reset-password)), roles: ROLE_USER }
-                - { path: ^/profile, roles: ROLE_USER }
+                - { path: ^(?!/(reset-password|profil)), roles: ROLE_USER }
+                # - { path: ^(?!/(login|register|reset-password|profil)), roles: ROLE_USER }
+                # - { path: ^/profil, roles: ROLE_USER }
 
                 # - { path: ^/admin/user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
