@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,6 +47,11 @@ class UserType extends AbstractType
             ->add('phone', NumberType::class, [
                 'label' => 'Phone Number',
                 'required' => false,
+                'invalid_message' => 'Please enter a valid phone number.',
+                'help' => 'Please enter a valid phone number.',
+                'attr' => [
+                    'maxlength' => '10',
+                ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
@@ -58,6 +64,7 @@ class UserType extends AbstractType
                  'options'  => ['attr' => ['class' => 'password-field']],
                 'first_options' => [
                     'label' => 'Password',
+                    'block_name' =>'plainPasswordFirst',
                     'help' =>
                         'Your password must be at least 6 characters long.',
                     'help_attr' => [
@@ -68,6 +75,7 @@ class UserType extends AbstractType
                 ],
                 'second_options' => [
                     'label' => 'Repeat Password',
+                    'block_name' => 'plainPasswordSecond',
                     'help' => 'Please repeat your password.',
                     'help_attr' => [
                         'class' => 'help-block',
@@ -102,6 +110,15 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'label' => 'Date de création',
+            ])
+            ->add('recaptcha', ReCaptchaType::class, [
+                'mapped' => false,
+                'invalid_message' => 'Please check the captcha',
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Please check the captcha',
+                    ]),
+                ],
             ]);
             // ->add('save', SubmitType::class, [
             //     'label' => 'Create Account',

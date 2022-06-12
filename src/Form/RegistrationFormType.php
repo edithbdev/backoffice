@@ -60,7 +60,7 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
                 'mapped' => false,
                 // 'attr' => ['autocomplete' => 'new-password'],
-                 'options'  => ['attr' => ['class' => 'password-field']],
+                'options' => ['attr' => ['class' => 'password-field']],
                 'first_options' => [
                     'label' => 'Password',
                     'help' =>
@@ -93,27 +93,22 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('recaptcha', ReCaptchaType::class,
-                [
-                    'mapped' => false,
-                    'required' => true,
-                    'invalid_message' => 'The captcha is not valid.',
-                    'constraints' => [
-                        new IsTrue([
-                            'message' => 'Please verify that you are not a robot.',
-                        ]),
-                        new NotBlank([
-                            'message' => 'Please verify that you are not a robot.',
-                        ]),
-                    ],
-                ]
-            );
+            ->add('recaptcha', ReCaptchaType::class, [
+                'mapped' => false,
+                'invalid_message' => 'Please check the captcha',
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Please check the captcha',
+                    ]),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'csrf_protection' => false,
         ]);
     }
 }

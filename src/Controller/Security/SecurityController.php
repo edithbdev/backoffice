@@ -55,47 +55,60 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/profil/{user}", name="profil", methods={"GET", "POST"})
-     * @ParamConverter("user", options={"mapping": {"user": "username"}})
-     * @param User $user
+     * @Route("/profil/edit/{id}", name="user_profil_update", methods={"GET", "POST"}), requirements={"id"="\d+"})
+     * @ParamConverter("id", class="App\Entity\User", options={"id"="id"})
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param Session $session
      * @return Response
      */
-    public function profil(
+    public function EditProfil(
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
-        Session $session,
-        UserRepository $userRepository
+        User $user
     ): Response {
         // We get the user who is connected
-        $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
+        // $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
 
-        // If the user is not connected, he can't access to the profil page
-        if (
-            $user->getId() != $this->getUser()->getId() &&
-            $user->getUsername() != $this->getUser()->getUsername()
-        ) {
-            $session->set(
-                'message',
-                'Vous ne pouvez pas modifier cet utilisateur'
-            );
-            return $this->redirectToRoute('home');
-        }
+         $this->denyAccessUnlessGranted('ROLE_USER', $user->getId());
+
+        //If the profil is not the connected user, redirect to home page
+        // if ($user->getId() != $this->getUser()->getId()) {
+        //     $session->set('message', 'Vous n\'avez pas accès à cette page');
+        //     return $this->redirectToRoute('home');
+        // }
+
 
         // Update the user profil
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
+          if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', 'Please check your input');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
+            // If the user has changed his password, and it is different from the default password
+            $newPassword = $form->get('plainPassword')->getData();
+
+            if ($newPassword != null) {
+                $encodedPassword = $passwordEncoder->encodePassword(
+                    $user,
+                    $newPassword
+                );
+                $user->setPassword($encodedPassword);
+            }
+
             $user->setUpdatedAt(new \DateTimeImmutable());
+
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre compte a bien été modifié.');
+            $this->addFlash(
+                'successUpdate',
+                'Votre compte a bien été modifié.'
+            );
 
             return $this->redirectToRoute('home');
         }
@@ -106,33 +119,25 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    // route pour mettre en statut isDeleted à true pour supprimer le compte
     /**
-     * @Route("/profil/delete/{user}", name="delete_user", methods={"GET", "POST"})
-     * @ParamConverter("user", options={"mapping": {"user": "username"}})
-     * @param User $user
+     * @Route("/profil/delete/{id}", name="user_profil_delete", methods={"DELETE", "POST"}, requirements={"id"="\d+"})
+     * @ParamConverter("id", class="App\Entity\User", options={"id"="id"})
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Session $session
      * @return Response
      */
-
     public function delete(
         Request $request,
         EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder,
         Session $session,
         UserRepository $userRepository
     ): Response {
-        // We get the user who is connected
+        // if user is the user who is connected, he can delete his account
         $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
 
-        // If the user is not connected, he can't access to the profil page
-        if (
-            $user->getId() != $this->getUser()->getId() &&
-            $user->getUsername() != $this->getUser()->getUsername()
-        ) {
+        if ($user->getId() != $this->getUser()->getId()) {
             $session->set(
                 'message',
                 'Vous ne pouvez pas supprimer cet utilisateur'
@@ -140,25 +145,25 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Delete the user account
-        $user = $userRepository->findOneBy(['isDeleted' => false]);
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->setIsDeleted(true);
-            $entityManager->persist($user);
+        if (
+            $this->isCsrfTokenValid(
+                'delete' . $user->getId(),
+                $request->request->get('_token')
+            )
+        ) {
+            $entityManager->setIsDeleted($user, true);
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre compte a bien été supprimé.');
 
+            $session->invalidate();
             return $this->redirectToRoute('app_logout');
         }
     }
 
     /**
      * @Route("/logout", name="app_logout")
-    */
+     */
     public function logout(): void
     {
         throw new \LogicException(

@@ -16,9 +16,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-
 
 class RegistrationController extends AbstractController
 {
@@ -40,18 +40,33 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
-        // $recaptcha = new Recaptcha('app_env(GOOGLE_RECAPTCHA_SECRET_KEY)');
-        // $recaptcha = $request->request->get('g-recaptcha-response');
-        // $resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-
-
-        if ($form->isSubmitted() && !$form->isValid()) {
-            throw new BadRequestHttpException('Invalid data');
+        // if email is already verified and user is already registered, log him in
+        if (
+            $user->getEmail() !== null &&
+            $user->getEmailVerifiedAt() !== null
+        ) {
+            $this->addFlash('error', 'Your account is already in use');
+            return $this->redirectToRoute('app_login');
         }
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $captcha = $request->request->get('g-recaptcha-response');
+
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        // if ($form->isSubmitted() && !$form->isValid()) {
+        //      $captcha = $form->getData()['g-recaptcha-response'];
+        //     if ($captcha === null) {
+        //         $this->addFlash('error', 'Please check the reCAPTCHA');
+        //         return $this->redirectToRoute('app_register');
+        //     } else {
+        //         $this->addFlash('error', 'Please check the form');
+        //         return $this->redirectToRoute('app_register');
+        //     }
+        //     // throw new BadRequestHttpException('Invalid data');
+        // }
+
+        if ($form->isSubmitted() && $form->isValid() && $captcha) {
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->encodePassword(
@@ -61,6 +76,7 @@ class RegistrationController extends AbstractController
             );
             $user->setRoles(['ROLE_USER']);
             $user->setApiToken(bin2hex(random_bytes(60)));
+
             try {
                 $entityManager->persist($user);
                 $entityManager->flush();
@@ -82,11 +98,6 @@ class RegistrationController extends AbstractController
                             'registration/confirmation_email.html.twig'
                         )
                 );
-                // do anything else you need here, like send an email
-                $this->addFlash(
-                    'success',
-                    'Confirm your email at: ' . $user->getEmail()
-                );
 
                 return $guardHandler->authenticateUserAndHandleSuccess(
                     $user,
@@ -95,26 +106,38 @@ class RegistrationController extends AbstractController
                     'main' // firewall name in security.yaml
                 );
             } catch (\Exception $e) {
-                // if($e instanceof \Doctrine\DBAL\Exception\UniqueConstraintViolationException) {
-                //     $this->addFlash('error', 'Your account is already in use');
-                //     return $this->redirectToRoute('app_login');
-                // } elseif ($e instanceof \Exception) {
-                //     $this->addFlash('error', 'An error occurred while saving');
-                // } else {
-                //     $this->addFlash(
+                // we check if recaptcha is valid
+                if (!$captcha) {
+                    $this->addFlash('error', 'Please check the reCAPTCHA');
+                    return $this->redirectToRoute('app_register');
+                }
+
+                // si email déjà utilisé
+                if ($e instanceof UniqueConstraintViolationException) {
+                    $this->addFlash('error', 'Your account is already in use');
+                    return $this->redirectToRoute('app_register');
+                }
+                // si email invalide
+                if ($e instanceof VerifyEmailExceptionInterface) {
+                    $this->addFlash('error', 'Your email is invalid');
+                    return $this->redirectToRoute('app_register');
+                }
+                //  $this->addFlash(
                 //     'error',
-                //     'Please fill in the captcha.',
+                //     'An error occurred while saving'
                 // );
-                // }
-                 $this->addFlash(
-                    'error',
-                    'Une erreur est survenue lors de l\'enregistrement. Votre compte est déjà utilisé.'
-                );
-                return $this->redirectToRoute('app_login');
+                // return $this->redirectToRoute('app_login');
             }
+             // do anything else you need here, like send an email
+                $this->addFlash(
+                    'success',
+                    'Confirm your email at: ' . $user->getEmail()
+                );
+            return $this->redirectToRoute('app_login');
         }
+
         return $this->render('security/registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 

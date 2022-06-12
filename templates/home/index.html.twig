@@ -8,7 +8,10 @@
                 <main>
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Dashboard</h1>
-                        {% for message in app.flashes('verify_email_sucess') %}
+                        {% for message in app.flashes('verify_email_success') %}
+                            <div class="alert alert-success" role="alert">{{ message }}</div>
+                        {% endfor %}
+                         {% for message in app.flashes('successUpdate') %}
                             <div class="alert alert-success" role="alert">{{ message }}</div>
                         {% endfor %}
                         <ol class="breadcrumb mb-4">

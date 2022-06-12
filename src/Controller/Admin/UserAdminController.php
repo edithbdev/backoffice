@@ -165,7 +165,7 @@ class UserAdminController extends AbstractController
             'Unable to access this page!'
         );
         // si l'utilisateur connecté est le même que l'utilisateur à supprimer
-        if ($this->getUser() !== $user->getId()) {
+        if ($this->getUser() == $user->getId()) {
             $entityManager->remove($user);
             $entityManager->flush();
         } else {

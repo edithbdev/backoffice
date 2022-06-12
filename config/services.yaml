@@ -44,10 +44,9 @@ services:
         resource: '../src/Repository'
         tags: ['repository.service_arguments']
 
-    # ReCaptcha\ReCaptcha:
-    #     arguments:
-    #         - '%env(GOOGLE_RECAPTCHA_SECRET_KEY)%'
-
+    ReCaptcha\ReCaptcha:
+        arguments:
+            - '%env(GOOGLE_RECAPTCHA_SECRET_KEY)%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

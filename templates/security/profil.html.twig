@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Change user account
-	{{ app.user.name }}
+	{{ app.user.username }}
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 		<main>
 			<div class="container-fluid px-4">
 				<h1 class="mt-4">Change user account
-					{{ app.user.name | upper }}</h1>
+					{{ app.user.username | upper }}</h1>
 				<div class="row">
 					{% for message in app.flashes('success') %}
 						<div class="alert alert-success">
@@ -21,77 +21,60 @@
 							{{ message }}
 						</div>
 					{% endfor %}
-
-					{{ form_start(form) }}
-					<div class="row mb-3">
-						<div class="col-md-6">
-							<div class="form-floating mb-3 mb-md-0">
-								{{ form_widget(form.name) }}
-								{{ form_errors(form.name)}}
-								{{ form_help(form.name) }}
-								{{ form_label(form.name) }}
-
+						{{ form_start(form) }}
+							{{ form_errors(form) }}
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<div class="form-floating mb-3 mb-md-0">
+									<input class="form-control" no-required id="name" type="text" name="name" value="{{ app.user.name }}">
+									<label for="name">Name</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating mb-3 mb-md-0">
+									<input class="form-control" no-required id="phone" type="tel" name="phone" value="{{ app.user.phone }}">
+									<label for="phone">Phone number</label>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-floating mb-3 mb-md-0">
-								{{ form_widget(form.phone) }}
-								{{ form_errors(form.phone)}}
-								{{ form_help(form.phone) }}
-								{{ form_label(form.phone) }}
-
+								<input class="form-control" required id="email" type="email" name="email" value="{{ app.user.email }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+								<label for="email">Email address</label>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-floating mb-3 mb-md-0">
-							{{ form_widget(form.email) }}
-							{{ form_errors(form.email)}}
-							{{ form_help(form.email) }}
-							{{ form_label(form.email) }}
-						</div>
-					</div>
-					<div class="row mt-3">
-						<div class="col-md-6">
-							<div class="form-floating mb-3 mb-md-0">
-								{{ form_widget(form.plainPassword.first) }}
-								{{ form_errors(form.plainPassword.first) }}
-								{{ form_help(form.plainPassword.first) }}
-								{{ form_label(form.plainPassword.first) }}
+						<div class="row mt-3">
+							<div class="col-md-6">
+								<div class="form-floating mb-3 mb-md-0">
+									<input class="form-control" id="password" type="password" name="plainPasswordFirst" no-required>
+									<input type="checkbox" onclick="showPassword()"> Show password
+									<label for="password">Password</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating mb-3 mb-md-0">
+									<input type="password" name="plainPasswordSecond" id="repeatpassword" class="form-control" no-required>
+									<input type="checkbox" onclick="showRepeatPassword()"> Show repeat password
+									<label for="repeatpassword">Repeat Password</label>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-floating mb-3 mb-md-0">
-								{{ form_widget(form.plainPassword.second) }}
-								{{ form_errors(form.plainPassword.second) }}
-								{{ form_help(form.plainPassword.second) }}
-								{{ form_label(form.plainPassword.second) }}
-							</div>
-						</div>
-					</div>
-
-					<div class="col-12">
-						{{ form_widget(form.roles, { 'attr': {'class': 'd-none'} }) }}
-						{{ form_widget(form.created_At, { 'attr': {'class': 'd-none'} }) }}
-					</div>
-
-					<button class="btn btn-primary mb-5 mt-3">{{ button_label|default('Mettre à jour') }}</button>
-					<a href="{{ path('delete_user') }}" class="btn btn-danger mb-5 mt-3">Supprimer le compte</a>
-					<button class="btn mb-5 mt-3 redirect">
-						<a href="{{ path('admin_user_index') }}">Annuler</a>
-					</button>
-					{{ form_end(form) }}
+						 <button class="btn btn-primary mb-5 mt-5">{{ button_label|default('Update') }}</button>
+						 <button class="btn mb-5 mt-5 redirect">
+							<a href="{{ path('home') }}">Cancel</a>
+						</button>
+						{# <button class="btn btn-primary  mb-5 mt-3" type="submit">
+						<a href="{{ path('user_profil_update', {'id': user.id}) }}">Update</a>
+						</button> #}
+						{# <button class="btn btn-primary mb-5 mt-3" type="submit">Update</button>
+						<button class="btn mb-5 mt-3 redirect">
+							<a href="{{ path('home') }}">Cancel</a>
+						</button> #}
+					{# </form> #}
+					{{ form_end(form, {render_rest: false}) }}
+					{{ include('security/_delete_form.html.twig') }}
 				</div>
 			</div>
-
 			<hr>
-			{# <button class="btn btn-danger">
-				<a href="{{ path('contact') }}" class="text-white">Demander la suppression du compte*</a>
-			</button>
-			<p class="font-italic">
-				*En cas de demande de suppression, le compte sera supprimé dans les 24h. Merci de m'indiquer votre pseudo lors de votre demande.
-			</p> #}
 		</main>
-
-
 	{% endblock %}

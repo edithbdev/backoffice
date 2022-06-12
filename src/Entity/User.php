@@ -54,6 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=3, max=30)
+     * @Assert\Regex( pattern="^[0-9]*$", message="Phone number can only contain numbers")
      */
     private $phone;
 
@@ -159,7 +160,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isDeleted = $isDeleted;
         return $this;
     }
-    
+
     /**
      * @see UserInterface
      */

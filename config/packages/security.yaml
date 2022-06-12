@@ -36,6 +36,11 @@ security:
                 dev:
                         pattern: ^/(_(profiler|wdt)|css|images|js)/
                         security: false
+                api_projects_index:
+                        pattern: ^/api/projects
+                        stateless: true
+                        anonymous: true
+                        security: false
                 main:
                         lazy: true
                         provider: app_user_provider
@@ -86,7 +91,7 @@ security:
                 - { path: ^/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
                 - { path: ^(?!/(reset-password|profil)), roles: ROLE_USER }
                 # - { path: ^(?!/(login|register|reset-password|profil)), roles: ROLE_USER }
-                # - { path: ^/profil, roles: ROLE_USER }
+                - { path: ^/profil, roles: ROLE_USER }
 
                 # - { path: ^/admin/user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
@@ -96,3 +101,10 @@ security:
                 # - { path: ^/user/, role: ROLE_ADMIN }
                # require ROLE_ADMIN for /admin*
                 - { path: '^/admin', roles: ROLE_ADMIN }
+                - { path: '^api', roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
+
+                # has been blocked by CORS policy: Response to preflight request doesn't pass access control check: It does not have HTTP ok status
+
+                - { path: ^/api/projects, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
+
+
