@@ -1,6 +1,0 @@
-[25-May-2022 07:07:02 UTC] [critical] Uncaught PHP Exception Doctrine\DBAL\Exception\UniqueConstraintViolationException: "An exception occurred while executing a query: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'edith' for key 'UNIQ_8D93D649F85E0677'" at /home/u154940854/domains/edithbredon.fr/public_html/backoffice/vendor/doctrine/dbal/src/Driver/API/MySQL/ExceptionConverter.php line 64
-
-[26-May-2022 07:21:29 UTC] [error] Uncaught PHP Exception Symfony\Component\HttpKernel\Exception\NotFoundHttpException: "No route found for "GET https://backoffice.edithbredon.fr/robots.txt"" at /home/u154940854/domains/edithbredon.fr/public_html/backoffice/vendor/symfony/http-kernel/EventListener/RouterListener.php line 135
-
-[26-May-2022 10:13:25 UTC] [critical] Uncaught PHP Exception Doctrine\DBAL\Exception\UniqueConstraintViolationException: "An exception occurred while executing a query: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'edith' for key 'UNIQ_8D93D649F85E0677'" at /home/u154940854/domains/edithbredon.fr/public_html/backoffice/vendor/doctrine/dbal/src/Driver/API/MySQL/ExceptionConverter.php line 64
-
