@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+				<div class="sb-sidenav-menu">
+					<div class="nav">
+						<div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="{{ path('homepage') }}">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div>
+							Accueil
+						</a>
+						<div class="sb-sidenav-menu-heading">Interface</div>
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-book-open"></i>
+							</div>
+                                Authentication
+							<div class="sb-sidenav-collapse-arrow">
+								<i class="fas fa-angle-down"></i>
+							</div>
+						</a>
+						<div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+										<a class="nav-link" href="{{ path('app_login') }}">Login</a>
+										<a class="nav-link" href="{{ path('app_register') }}">Register</a>
+										<a class="nav-link" href="#">Forgot Password</a>
+							    </nav>
+						</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProjects" aria-expanded="false" aria-controls="collapseProjects">
+
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-columns"></i>
+                            </div>
+                            Projects
+                            <div class="sb-sidenav-collapse-arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseProjects" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">Projects list</a>
+                                <a class="nav-link" href="#">Add project</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-columns"></i>
+                            </div>
+                            Users
+                            <div class="sb-sidenav-collapse-arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseUsers" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">Users list</a>
+                                <a class="nav-link" href="#">Add user</a>
+                            </nav>
+                        </div>
+                        <div class="sb-sidenav-menu-heading">Contact</div>
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            Formulaire
+                        </a>
+					</div>
+				</div>
+				<div class="sb-sidenav-footer">
+					<div class="small">Logged in as:</div>
+
+					{% if app.user %}
+					{{ app.user.lastname}} {{ app.user.firstname}}
+					{% else %}
+					<p> You're not connected !
+			{% endif %}
+
+				</div>
+			</nav>
+		</div>
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Welcome</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">Accueil</li>
+					</ol>
+					<div class="row">
+						<div class="col-xl-3 col-md-6">
+							<div class="card bg-primary text-white mb-4">
+								<div class="card-body">Projects list</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="#">View Details</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6">
+							<div class="card bg-success text-white mb-4">
+								<div class="card-body">Users</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="#">View Details</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		{% endblock %}
