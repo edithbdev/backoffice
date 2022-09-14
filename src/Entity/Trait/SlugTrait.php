@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 trait SlugTrait
 {
     #[ORM\Column(
+        nullable: true,
         type: 'string',
         length: 255,
     )]

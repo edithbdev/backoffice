@@ -6,6 +6,9 @@
 parameters:
 
 services:
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%upload_directory%'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -24,6 +27,10 @@ services:
         resource: '../src/Controller/'
         tags:
             - controller.service_arguments
+
+    App\Repository\:
+        resource: '../src/Repository'
+        tags: ['repository.service_arguments']
 
     App\OpenApi\ProjectApiFactory:
         decorates: 'api_platform.openapi.factory'
