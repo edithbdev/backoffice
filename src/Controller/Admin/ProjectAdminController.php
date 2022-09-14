@@ -56,7 +56,8 @@ class ProjectAdminController extends AbstractController
 
         return $this->render('admin/project/create.html.twig', [
             'form' => $form->createView(),
-            'projects' => count($projects->findAll()) > 0 ? $projects->findAll() : null,
+            // 'projects' => count($projects->findAll()) > 0 ? $projects->findAll() : null,
+            'projects' => $projects->findAll(),
         ]);
     }
 
