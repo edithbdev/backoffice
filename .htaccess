@@ -1,7 +1,2 @@
-<<<<<<< HEAD
 RewriteCond %{REQUEST_URI} !^/public/
 RewriteRule ^(.*)$ /public/$1 [L]
-=======
-RewriteCond %{REQUEST_URI} !^/public/
-RewriteRule ^(.*)$ /public/$1 [L]
->>>>>>> 52d08fce597c392eb2a0a2dae7d34c80e4f535e0
