@@ -23,7 +23,10 @@ class ProjectAdminController extends AbstractController
     }
 
     #[Route('/create', name: 'create')]
-    public function create(Request $request, EntityManagerInterface $em, ProjectRepository $projects): Response
+    public function create(
+        Request $request,
+        EntityManagerInterface $em,
+        ProjectRepository $projects): Response
     {
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
@@ -56,7 +59,8 @@ class ProjectAdminController extends AbstractController
 
         return $this->render('admin/project/create.html.twig', [
             'form' => $form->createView(),
-            // 'projects' => count($projects->findAll()) > 0 ? $projects->findAll() : null,
+            // 'projects' => count($projects->findAll()) > 0
+            // ? $projects->findAll() : null,
             'projects' => $projects->findAll(),
         ]);
     }
@@ -73,9 +77,4 @@ class ProjectAdminController extends AbstractController
         return $this->render('admin/project/slug.html.twig', compact('project'));
     }
 
-    // #[Route('/edit', name: 'edit')]
-    // public function edit(Project $project): Response
-    // {
-    //     return $this->render('admin/project/edit.html.twig', compact('project'));
-    // }
 }

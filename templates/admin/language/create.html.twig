@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Add project
+{% block title %}Add language
 {% endblock %}
 
 {% block body %}
@@ -8,16 +8,16 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">Add project</h1>
+					<h1 class="mt-4">Add language</h1>
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="card mb-4">
 								<div class="card-header">
 									<i class="fas fa-table mr-1"></i>
-									Add project
+									Add language
 								</div>
 								<div class="card-body">
-									<form action="{{ path('admin_projects_create') }}" method="post">
+									<form action="{{ path('admin_languages_create') }}" method="post">
 										{{ form_widget(form) }}
 										<button type="submit" class="btn btn-primary">Add</button>
 									</form>

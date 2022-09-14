@@ -6,6 +6,7 @@ use Error;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -42,25 +43,25 @@ class RegistrationFormType extends AbstractType
                 'required' => false,
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                 'mapped' => false,
-                 'attr' => [
+                'mapped' => false,
+                'attr' => [
                         'class' => 'form-check-input',
                         'required' => true,
                         'style' => 'margin-left: 0.5rem;',
                     ],
-                 'constraints' => [
-                     new IsTrue([
-                         'message' => 'You should agree to our terms',
-                     ]),
-                 ],
-                 'label' => 'By registering on the site, I accept the terms of use',
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should agree to our terms',
+                    ]),
+                ],
+                'label' => 'By registering on the site, I accept the terms of use',
                     // espace entre la checkbox et le label
                     'label_attr' => [
                         'class' => 'form-check-label',
                     ],
 
 
-             ])
+            ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -81,7 +82,15 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-        ;
+            ->add('recaptcha', ReCaptchaType::class, [
+                    'mapped' => false,
+                    'invalid_message' => 'Please check the captcha',
+                    'constraints' => [
+                        new IsTrue([
+                            'message' => 'Please check the captcha',
+                        ]),
+                    ],
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

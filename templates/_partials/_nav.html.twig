@@ -9,7 +9,6 @@
 
 	<!-- Navbar Search-->
 	{% if app.user %}
-
 		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
 			<div class="input-group">
 				<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch"/>
@@ -51,7 +50,7 @@
 </nav>
 <div id="layoutSidenav">
 	<div id="layoutSidenav_nav">
-		<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+		<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" aria-labelledby="navbarAccordion">
 			<div class="sb-sidenav-menu">
 				<div class="nav">
 					<div class="sb-sidenav-menu-heading">Core</div>
@@ -89,9 +88,25 @@
 						</div>
 					</a>
 					<div class="collapse" id="collapseProjects" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="#">Projects list</a>
+						<nav class="sb-sidenav-menu-nested nav" aria-labelledby="menuNested">
+							<a class="nav-link" href="{{ path('admin_projects_index') }}">Projects list</a>
 							<a class="nav-link" href="{{ path('admin_projects_create') }}">Add project</a>
+						</nav>
+					</div>
+					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLanguages" aria-expanded="false" aria-controls="collapseLanguages">
+
+						<div class="sb-nav-link-icon">
+							<i class="fas fa-columns"></i>
+						</div>
+						Languages
+						<div class="sb-sidenav-collapse-arrow">
+							<i class="fas fa-angle-down"></i>
+						</div>
+					</a>
+					<div class="collapse" id="collapseLanguages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+						<nav class="sb-sidenav-menu-nested nav" aria-labelledby="menuNested">
+							<a class="nav-link" href="{{ path('admin_languages_index') }}">Languages list</a>
+							<a class="nav-link" href="{{ path('admin_languages_create') }}">Add language</a>
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
@@ -104,8 +119,8 @@
 						</div>
 					</a>
 					<div class="collapse" id="collapseUsers" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="#">Users list</a>
+						<nav class="sb-sidenav-menu-nested nav" aria-labelledby="menuNested">
+							<a class="nav-link" href="{{ path('admin_users_index') }}">Users list</a>
 							<a class="nav-link" href="#">Add user</a>
 						</nav>
 					</div>

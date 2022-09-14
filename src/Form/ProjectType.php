@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ProjectType extends AbstractType
 {
@@ -63,6 +62,7 @@ class ProjectType extends AbstractType
             //         'class' => 'btn btn-primary',
             //     ],
             // ])
+
         ;
     }
 
