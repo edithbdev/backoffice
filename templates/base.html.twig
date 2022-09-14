@@ -14,40 +14,32 @@
 
 		<!-- Feuilles de style -->
 		{# asset est une fonction twig qui permet d'avoir le chemin relatif qui permet d'accèder au dossier public #}
-		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
-		{# <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/> #}
-		{% block stylesheets %}{% endblock %}
-		<link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}"/>
-		<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-
+		<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>{% block stylesheets %}{% endblock %} <link
+		rel="stylesheet" href="{{ asset('assets/css/styles.css') }}"/>
 
 		<!-- Font Awesome -->
+		<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
+	</head>
+	<body
+		class="sb-nav-fixed">
+
+		<!-- Navigation -->
+		{% include "_partials/_nav.html.twig" %}
+
+		{% block body %}{% endblock %}
+
+		<!-- Footer -->
+		{% include "_partials/_footer.html.twig" %}
 
 		<!-- Scripts -->
-		{# l'attribut defer va déclencher le chargement des scripts uniquement lorsque la page est chargée #}<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"> </script>
+		{# l'attribut defer va déclencher le chargement des scripts uniquement lorsque la page est chargée #}<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}" defer> </script>
 		<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 		{% block javascripts %}{% endblock %}
 
-		{# <link rel="stylesheet" href="{{ asset('assets/js/scripts.js') }}"/> #}
-
-
-	</head>
-	<body class="sb-nav-fixed">
-
-        <!-- Navigation -->
-        {% include "_partials/_nav.html.twig" %}
-
-		{% block body %} {% endblock %}
-
-        <!-- Footer -->
-        {% include "_partials/_footer.html.twig" %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="{{ asset('assets/js/scripts.js') }}"/>
+		<script src="{{ asset('assets/js/scripts.js') }}"></script>
 
 	</body>
 </html>

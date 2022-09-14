@@ -39,6 +39,16 @@ class ProjectRepository extends ServiceEntityRepository
         }
     }
 
+//Return a project with a random id
+    public function getRandomProject(): Project
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('RAND()')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
 //    /**
 //     * @return Project[] Returns an array of Project objects
 //     */

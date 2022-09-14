@@ -12416,6 +12416,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin-left: 225px;
 }
 
 #layoutAuthentication #layoutAuthentication_content {

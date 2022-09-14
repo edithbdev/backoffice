@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projects List
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Projects List</h1>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-table mr-1"></i>
+									Projects List
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+											<thead>
+												<tr>
+													<th>Id</th>
+													<th>Name</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tfoot>
+												<tr>
+													<th>Id</th>
+													<th>Name</th>
+													<th>Action</th>
+												</tr>
+											</tfoot>
+											<tbody>
+												{% for project in projects %}
+													<tr>
+														<td>{{ project.id }}</td>
+														<td>{{ project.name }}</td>
+
+
+														{# <td>
+														                                                            <a href="{{ path('edit_user', {'id': user.id}) }}" class="btn btn-primary">Edit</a>
+														                                                            <a href="{{ path('delete_user', {'id': user.id}) }}" class="btn btn-danger">Delete</a>
+														                                                        </td> #}
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div</div>
+								</main>
+
+
+							{% endblock %}
+
