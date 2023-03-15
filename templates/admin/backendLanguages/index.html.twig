@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des langages backend
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					{% if not backendLanguages.items is same as([]) %}
+						<h1 class="mt-4">Liste des langages backend</h1>
+						<ol class="breadcrumb mb-4">
+							<li class="breadcrumb-item">
+								<a href="{{ path('homepage') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item active">Liste des langages backend</li>
+						</ol>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card mb-4">
+									<div class="card-header">
+										<i class="fas fa-table mr-1" aria-hidden="true"></i>
+										Liste des langages backend
+										<div class="d-flex justify-content-end">
+											<a href="{{ path('admin_backendLanguages_create') }}" class="btn btn-success">
+												<i class="fas fa-plus"></i>
+												Nouveau</a>
+										</div>
+									</div>
+									<div class="count m-4">Total des langages backend :
+										{{ backendLanguages.getTotalItemCount }}</div>
+									<div class="card-body">
+										<div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+											<div class="dataTable-container">
+												<table class="table w-100" data-toggle="table" data-search="true" id="dataTable">
+													<caption class="text-center">
+														Liste des langages backend</caption>
+													<thead>
+														<tr>
+															<th scope="col" data-sortable="true" data-field="id">Id</th>
+															<th scope="col" data-sortable="true" data-field="name">Nom</th>
+															<th scope="col" data-sortable="true" data-field="project">Projet(s)</th>
+															<th scope="col" data-sortable="true">Créé</th>
+															<th scope="col" data-sortable="true">Mise à jour</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														{% for backendLanguage in backendLanguages %}
+															<tr>
+																<th scope="row">{{ backendLanguage.id }}</th>
+																<td>{{ backendLanguage.name }}</td>
+																<td>
+																	{% if backendLanguage.projects is empty %}
+																		<p class="text-warning">
+																			<i class="fas fa-ban"></i>
+																			Aucun projet
+																		{% else %}
+																			{% for project in backendLanguage.projects %}
+																				{% set strtruncate = truncate(project.name, 10, '...') %}
+																				<a href="{{ path('admin_projects_slug', {'slug': project.slug}) }}" class="badge bg-secondary text-decoration-none" data-toggle="tooltip" data-placement="top" title="{{ project.name }}" style="color: #fff;">
+																					{{ strtruncate }}
+																				</a>
+																			{% endfor %}
+																		{% endif %}
+																	</td>
+																</td>
+																<td>
+																	<span class="fs-8">{{backendLanguage.createdAt|date('d-m-Y')}}
+																		<br>
+																		à
+																		{{backendLanguage.createdAt|date('H:i')}}
+																	</span>
+																</td>
+																<td>
+																	<span class="fs-8">{{backendLanguage.updatedAt|date('d-m-Y')}}
+																		<br>
+																		à
+																		{{backendLanguage.updatedAt|date('H:i')}}
+																	</span>
+																</td>
+																<td class="text-center me-auto ms-auto">
+																	<a href="{{ path('admin_backendLanguages_slug', {'slug': backendLanguage.slug}) }}" class="btn btn-primary btn-sm my-2" style="white-space: nowrap;" data-toggle="tooltip" data-placement="top" title="Voir">
+																		<i class="fas fa-eye"></i>
+																	</a>
+																	<a href="{{ path('admin_backendLanguages_update', {'id': backendLanguage.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Modifier">
+																		<i class="fas fa-edit"></i>
+																	</a>
+																	{% set itemId = backendLanguage.id %}
+
+																	{{ include('admin/_delete_form.html.twig') }}
+																</td>
+															</tr>
+														{% endfor %}
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<p class="float text-center">
+										<a href="#">
+											<i class="fa-solid fa-arrow-circle-up" aria-hidden="true"></i>
+											Retour au début</a>
+									</p>
+									<div class="navigation d-flex justify-content-center mt-4">
+										{{ knp_pagination_render(backendLanguages) }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% else %}
+					<div class="row mt-5">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="alert alert-warning" role="alert">
+												<h4 class="alert-heading">Aucun langage backend n'a été trouvé !</h4>
+												<hr>
+												<p class="mb-0">Vous pouvez en créer un en cliquant sur le bouton ci-dessous.</p>
+												<a href="{{ path('admin_backendLanguages_create') }}" class="btn btn-primary mt-2">
+													<i class="fas fa-plus"></i>
+													Créer un langage backend
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</main>
+		{% endblock %}

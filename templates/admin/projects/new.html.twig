@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un projet
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Ajouter un projet</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item">
+							<a href="{{ path('homepage') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active">
+							<a href="{{ path('admin_projects_index') }}">Liste des projets</a>
+						</li>
+						<li class="breadcrumb-item active">Ajouter un projet
+						</li>
+					</ol>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-table mr-1" aria-hidden="true"></i>
+									Ajouter un projet
+								</div>
+								{{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+								<div class="card-body">
+									<div class="form-group">
+										{{ form_label(form.name) }}
+										{{ form_widget(form.name) }}
+										{% if form_errors(form.name) %}
+											<div class="text-danger">
+												{{ form_errors(form.name) }}
+											</div>
+										{% endif %}
+									</div>
+									<div class="form-group">
+										{{ form_label(form.projectLink) }}
+										{{ form_widget(form.projectLink) }}
+										{% if form_errors(form.projectLink) %}
+											<div class="form-error">
+												{{ form_errors(form.projectLink) }}
+											</div>
+										{% endif %}
+									</div>
+									<div class="form-group">
+										{{ form_label(form.githubLink) }}
+										{{ form_widget(form.githubLink) }}
+										{% if form_errors(form.githubLink) %}
+											<div class="form-error">
+												{{ form_errors(form.githubLink) }}
+											</div>
+										{% endif %}
+									</div>
+									<div class="form-group">
+										{{ form_row(form.year) }}
+										{% if form_errors(form.year) %}
+											<div class="form-error">
+												{{ form_errors(form.year) }}
+											</div>
+										{% endif %}
+									</div>
+									<div class="form-group">
+										{{ form_row(form.lastUpdate) }}
+										{% if form_errors(form.lastUpdate) %}
+											<div class="form-error">
+												{{ form_errors(form.lastUpdate) }}
+											</div>
+										{% endif %}
+									</div>
+									<div class="form-group">
+										{{ form_row(form.status) }}
+										{% if form_errors(form.status) %}
+											<div class="form-error">
+												{{ form_errors(form.status) }}
+											</div>
+										{% endif %}
+									</div>
+									<div class="form-group">
+										{{ form_label(form.description) }}
+										{{ form_widget(form.description) }}
+										{% if form_errors(form.description) %}
+											<div class="text-danger">
+												{{ form_errors(form.description) }}
+											</div>
+										{% endif %}
+									</div>
+
+									<div class="form-group">
+										{{ form_row(form.imageFile) }}
+									</div>
+									<div class="form-group">
+										{{ form_row(form.images) }}
+									</div>
+									<h1 class="mt-4 fs-3">Stack Techniques</h1>
+									<div class="d-flex flex-column flex-md-row justify-content-around" style="width: 100%; background-color: #f8f9fc; padding: 1rem; border-radius: 10px;">
+										{{ form_row(form.frontendLanguages) }}
+										{{ form_row(form.backendLanguages) }}
+										{{ form_row(form.tools) }}
+									</div>
+									<div>
+										{{ form_widget(form.slug, { 'attr': {'class': 'd-none'} }) }}
+									</div>
+									<button class="btn btn-primary mt-4 mb-5">{{ button_label|default('Ajouter') }}</button>
+									<button class="btn redirect mt-4 mb-5">
+										<a href="{{ path('admin_projects_index') }}">Retour</a>
+									</button>
+									{{ form_end(form) }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		{% endblock %}

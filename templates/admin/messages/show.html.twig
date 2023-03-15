@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message de
+	{{ message.email }}
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main class="mb-5">
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">
+						Détail du message de :
+						{{ message.firstname }}
+						{{ message.lastname }}
+						{% if message.isAnswered %}
+							(archivé)
+						{% elseif message.deleted %}
+							(supprimé)
+						{% endif %}
+					</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item">
+							<a href="{{ path('homepage') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin_messages_index') }}">Liste des messages</a>
+						</li>
+						<li class="breadcrumb-item active">
+							Détail du message de :
+							{{ message.firstname }}
+							{{ message.lastname }}
+						</li>
+					</ol>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-table mr-1" aria-hidden="true"></i>
+									Message de :
+									{{ message.firstname }}
+									{{ message.lastname }}
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered w-100" id="dataTable">
+											<caption class="text-center">
+												Détail du message
+											</caption>
+											<thead>
+												<tr>
+													<th scope="col">Id</th>
+													<th scope="col">Nom</th>
+													<th scope="col">Prénom</th>
+													<th scope="col">Email</th>
+													<th scope="col">Sujet</th>
+													<th scope="col">Message</th>
+													<th scope="col">Reçu le</th>
+													<th scope="col">Lu</th>
+													<th scope="col">Répondu</th>
+													<th scope="col">Commentaire</th>
+													<th scope="col">Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th scope="row">{{ message.id }}</th>
+													<th>{{ message.lastname }}</th>
+													<td>{{ message.firstname }}</td>
+													<td>{{ message.email }}</td>
+													<td>{{ message.subject }}</td>
+													<td>{{ message.message }}</td>
+													<td>{{ message.createdAt|date('d/m/Y') }}</td>
+													<td>{{ message.isRead ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' }}</td>
+													<td>{{ message.isAnswered ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' }}</td>
+													<td>{{ message.comment ? message.comment : 'Non renseigné' }}</td>
+													<td class="text-center me-auto ms-auto">
+														<a href="{{ path('admin_messages_update', {'id': message.id}) }}" class="btn btn-primary btn-sm my-2" data-toogle="tooltip" data-placement="top" title="Modifier">
+															<i class="fas fa-edit"></i>
+														</a>
+														{% set itemId = message.id %}
+
+														{{ include('admin/_delete_form.html.twig') }}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		{% endblock %}

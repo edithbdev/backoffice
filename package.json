@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "bs5-lightbox": "^1.8.2",
+    "lightbox2": "^2.11.3",
+    "lightgallery": "^2.7.1"
+  }
+}

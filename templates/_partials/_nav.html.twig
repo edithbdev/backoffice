@@ -1,0 +1,181 @@
+{% if app.user %}
+	<nav
+		class="sb-topnav navbar navbar-expand navbar-dark bg-dark" aria-label="MainPage">
+		<!-- Navbar Brand-->
+		<a class="navbar-brand ps-3" href="{{ path('homepage') }}">Dashboard</a>
+
+		<!-- Sidebar Toggle-->
+		<button class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#" onclick="sidebarToggleFunction()">
+			<i class="fas fa-bars" aria-hidden="true"></i>
+		</button>
+
+		<!-- Navbar-->
+		<ul class="navbar-nav ms-auto">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<i class="fas fa-user fa-fw" aria-hidden="true"></i>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+					<li>
+						<a class="dropdown-item" href="{{ path('admin_users_slug', {'slug': app.user.slug}) }}">Paramètres</a>
+					</li>
+					<li><hr class="dropdown-divider"/></li>
+					<li>
+						<a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<!--Aller à la page précédente-->
+		<button class="btn btn-sm btn-outline-light me-3 text-white" id="back" href="#" onclick="backButtonFunction()">Retour</button>
+	</nav>
+
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" aria-labelledby="navbarAccordion">
+				<div class="sb-sidenav-menu">
+					<div class="nav">
+						{% if app.user and app.user.isVerified == false %}
+							<div class="alert alert-warning alert-dismissible" role="alert">
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								<div class='alert-message'>
+									<strong>Warning!</strong>
+									Votre compte n'est pas encore vérifié. Veuillez vérifier votre boîte mail.
+								</div>
+							</div>
+						{% endif %}
+						{% include '_partials/_flash_messages.html.twig' %}
+						<div class="sb-sidenav-menu-heading">Core</div>
+						<a class="nav-link {{ app.request.attributes.get('_route') == 'homepage' ? 'active' : '' }}" href="{{ path('homepage') }}">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-home" aria-hidden="true"></i>
+							</div>
+							Accueil
+						</a>
+						<div class="sb-sidenav-menu-heading">Interface</div>
+						<a class="nav-link collapsed
+							{{ app.request.attributes.get('_route') == 'admin_projects_index' ? 'active' : '' }}
+							{{ app.request.attributes.get('_route') == 'admin_projects_create' ? 'active' : '' }}
+							{{ app.request.attributes.get('_route') == 'admin_projects_archived' ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProjects" aria-expanded="false" aria-controls="collapseProjects">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-columns" aria-hidden="true"></i>
+							</div>
+							Projets
+							<div class="sb-sidenav-collapse-arrow">
+								<i class="fas fa-angle-down" aria-hidden="true"></i>
+							</div>
+						</a>
+						<div class="collapse" id="collapseProjects" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav" aria-labelledby="menuNested">
+								<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_projects_index' ? 'active' : '' }}" href="{{ path('admin_projects_index') }}">Liste des projets</a>
+								<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_projects_create' ? 'active' : '' }}" href="{{ path('admin_projects_create') }}">Ajouter un projet</a>
+								<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_projects_archived' ? 'active' : '' }}" href="{{ path('admin_projects_archived') }}">Projets archivés</a>
+							</nav>
+						</div>
+
+						<a class="nav-link collapsed
+							{{ app.request.attributes.get('_route') == 'admin_frontendLanguages_index' ? 'active' : '' }}
+							{{ app.request.attributes.get('_route') == 'admin_frontendLanguages_create' ? 'active' : '' }}
+							{{ app.request.attributes.get('_route') == 'admin_backendLanguages_index' ? 'active' : '' }}
+							{{ app.request.attributes.get('_route') == 'admin_backendLanguages_create' ? 'active' : '' }}
+							{{ app.request.attributes.get('_route') == 'admin_tools_index' ? 'active' : '' }}
+							{{ app.request.attributes.get('_route') == 'admin_tools_create' ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+							<div class="sb-nav-link-icon">
+								<i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+							</div>
+						Stack techniques
+						<div class="sb-sidenav-collapse-arrow">
+							<i class="fas fa-angle-down" aria-hidden="true"></i>
+						</div>
+					</a>
+					<div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+						<nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages" aria-label="navbarAccordion">
+							<a class="nav-link collapsed {{ app.request.attributes.get('_route') == 'admin_frontendLanguages_index' ? 'active' : '' }} {{ app.request.attributes.get('_route') == 'admin_frontendLanguages_create' ? 'active' : '' }}" href="{{ path('admin_frontendLanguages_index') }}" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseFront" aria-expanded="false" aria-controls="pagesCollapseFront">
+								Frontend
+								<div class="sb-sidenav-collapse-arrow">
+									<i class="fas fa-angle-down" aria-hidden="true"></i>
+								</div>
+							</a>
+							<div class="collapse" id="pagesCollapseFront" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+								<nav class="sb-sidenav-menu-nested nav" aria-labelledby="menuNested">
+									<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_frontendLanguages_index' ? 'active' : '' }}" href="{{ path('admin_frontendLanguages_index') }}">Liste frontend</a>
+									<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_frontendLanguages_create' ? 'active' : '' }}" href="{{ path('admin_frontendLanguages_create') }}">Ajouter un frontend</a>
+								</nav>
+							</div>
+							<a class="nav-link collapsed {{ app.request.attributes.get('_route') == 'admin_backendLanguages_index' ? 'active' : '' }} {{ app.request.attributes.get('_route') == 'admin_backendLanguages_create' ? 'active' : '' }}" href="{{ path('admin_backendLanguages_index') }}" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseBack" aria-expanded="false" aria-controls="pagesCollapseBack">
+								Backend
+								<div class="sb-sidenav-collapse-arrow">
+									<i class="fas fa-angle-down" aria-hidden="true"></i>
+								</div>
+							</a>
+							<div class="collapse" id="pagesCollapseBack" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+								<nav class="sb-sidenav-menu-nested nav" aria-labelledby="menuNested">
+									<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_backendLanguages_index' ? 'active' : '' }}" href="{{ path('admin_backendLanguages_index') }}">Liste backend</a>
+									<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_backendLanguages_create' ? 'active' : '' }}" href="{{ path('admin_backendLanguages_create') }}">Ajouter un backend</a>
+								</nav>
+							</div>
+							<a class="nav-link collapsed {{ app.request.attributes.get('_route') == 'admin_tools_index' ? 'active' : '' }} {{ app.request.attributes.get('_route') == 'admin_tools_create' ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseStack" aria-expanded="false" aria-controls="pagesCollapseStack">
+								Outils
+								<div class="sb-sidenav-collapse-arrow">
+									<i class="fas fa-angle-down" aria-hidden="true"></i>
+								</div>
+							</a>
+							<div class="collapse" id="pagesCollapseStack" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+								<nav class="sb-sidenav-menu-nested nav" aria-labelledby="menuNested">
+									<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_tools_index' ? 'active' : '' }}" href="{{ path('admin_tools_index') }}">Liste des outils</a>
+									<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_tools_create' ? 'active' : '' }}" href="{{ path('admin_tools_create') }}">Ajouter un outil</a>
+								</nav>
+							</div>
+						</nav>
+
+					</div>
+					<a class="nav-link collapsed
+						{{ app.request.attributes.get('_route') == 'admin_users_index' ? 'active' : '' }}
+						{{ app.request.attributes.get('_route') == 'admin_users_create' ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
+						<div class="sb-nav-link-icon">
+							<i class="fas fa-users" aria-hidden="true"></i>
+						</div>
+						Utilisateurs
+						<div class="sb-sidenav-collapse-arrow">
+							<i class="fas fa-angle-down" aria-hidden="true"></i>
+						</div>
+					</a>
+					<div class="collapse" id="collapseUsers" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+						<nav class="sb-sidenav-menu-nested nav" aria-labelledby="menuNested">
+							<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_users_index' ? 'active' : '' }}" href="{{ path('admin_users_index') }}">Liste des utilisateurs</a>
+							<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_users_create' ? 'active' : '' }}" href="{{ path('admin_users_create') }}">Ajouter un utilisateur</a>
+						</nav>
+					</div>
+
+					<div class="sb-sidenav-menu-heading">Messages</div>
+					<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_messages_index' ? 'active' : '' }}" href="{{ path('admin_messages_index') }}">
+						<div class="sb-nav-link-icon">
+							<i class="fa-solid fa-envelope" aria-hidden="true"></i>
+						</div>
+						Messages
+						<span class="badge bg-primary text-white ms-1 rounded-pill">
+							{{ countUnreadMessages() }}
+							non lus
+						</span>
+					</a>
+					<a class="nav-link {{ app.request.attributes.get('_route') == 'admin_messages_archived' ? 'active' : '' }}" href="{{ path('admin_messages_archived') }}">
+						<div class="sb-nav-link-icon">
+							<i class="fa-solid fa-archive" aria-hidden="true"></i>
+						</div>
+						Messages archivés
+						<span class="badge bg-primary text-white ms-1 rounded-pill">
+							{{ countMessagesArchived() }}
+						</span>
+					</a>
+				</div>
+			</div>
+
+			<div class="sb-sidenav-footer">
+				<div class="small">Connecté en tant que :</div>
+				{{ app.user.lastname}}
+				{{ app.user.firstname}}
+			</div>
+		</div>
+	</nav>
+{% endif %}</div>

@@ -1,0 +1,38 @@
+<form method="post" action="{{ path('admin_' ~ entity ~ '_delete', {'id': itemId}) }}" onsubmit="deleteItemCard(event)" style="display: inline-block;">
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ itemId) }}">
+	<input type="hidden" name="confirm" value="true">
+	{# <input type="hidden" name="_method" value="DELETE"> #}
+	<button type="submit" class="btn btn-danger btn-sm my-2" data-toggle="modal" data-placement="top" title="Supprimer" data-bs-target="#deleteConfirmationModalCard{{itemId}}">
+		<i class="fas fa-trash-alt"></i>
+	</button>
+</form>
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirmationModalCard{{itemId}}" tabindex="-1" aria-labelledby="deleteConfirmationModalLabelCard" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteConfirmationModalLabelCard">Confirmation de suppression</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Êtes-vous sûr de vouloir supprimer cet élément ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+				<a href="#" class="btn btn-danger" id="deleteItemCard{{itemId}}">Supprimer</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function deleteItemCard(event) {
+event.preventDefault();
+$('#deleteConfirmationModalCard{{ itemId }}').modal('show');
+let form = event.target;
+let deleteButton = document.getElementById('deleteItemCard{{ itemId }}');
+deleteButton.addEventListener('click', function () {
+form.submit();
+});
+}
+</script>

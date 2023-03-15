@@ -1,0 +1,220 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du projet
+	{{project.name}}
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main class="mb-5">
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Projet
+						{{project.name}}</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item">
+							<a href="{{ path('homepage') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active">
+							<a href="{{ path('admin_projects_index') }}">Liste des projets</a>
+						</li>
+						<li class="breadcrumb-item active">{{ project.name }}
+						</li>
+					</ol>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-table mr-1" aria-hidden="true"></i>
+									Projet :
+									{{project.name}}
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered w-100" id="dataTable">
+											<caption class="text-center">Détail du projet</caption>
+											<thead>
+												<tr>
+													<th scope="col">Id</th>
+													<th scope="col">Nom</th>
+													<th scope="col">Description</th>
+													<th scope="col">Frontend</th>
+													<th scope="col">Backend</th>
+													<th scope="col">Outils</th>
+													<th scope="col">Lien projet</th>
+													<th scope="col">Lien github</th>
+													<th scope="col">Vignette</th>
+													<th scope="col">Image</th>
+													<th scope="col">Année</th>
+													<th scope="col">Der. mise à jour</th>
+													<th scope="col">Status</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th scope="row">{{ project.id }}</th>
+													<td>{{ project.name }}</td>
+													{% set str = decodeHtmlEntities(project.description) %}
+													<td>{{str|raw}}</td>
+
+													{% if project.frontendLanguages is empty %}
+														<td>
+															<p class="text-warning">
+																<i class="fas fa-ban"></i>
+																Pas de langage frontend
+															</p>
+														</td>
+													{% else %}
+														<td>
+															{% for frontendLanguage in project.frontendLanguages %}
+																<a class="text-decoration-none" href="{{ path('admin_frontendLanguages_slug', {'slug': frontendLanguage.slug}) }}">
+																	<span class="badge bg-secondary p-1 m-1">
+																		{{frontendLanguage.name}}
+																	</span>
+																</a>
+															{% endfor %}
+														</td>
+													{% endif %}
+													{% if project.backendLanguages is empty %}
+														<td>
+															<p class="text-warning">
+																<i class="fas fa-ban"></i>
+																Pas de langage backend
+															</p>
+														</td>
+													{% else %}
+														<td>
+															{% for backendLanguage in project.backendLanguages %}
+																<a class="text-decoration-none" href="{{ path('admin_backendLanguages_slug', {'slug': backendLanguage.slug}) }}">
+																	<span class="badge bg-secondary p-1 m-1">
+																		{{backendLanguage.name}}
+																	</span>
+																</a>
+															{% endfor %}
+														</td>
+													{% endif %}
+													{% if project.tools is empty %}
+														<td>
+															<p class="text-warning">
+																<i class="fas fa-ban"></i>
+																Pas de stack
+															</p>
+														</td>
+													{% else %}
+														<td>
+															{% for tool in project.tools %}
+																<a class="text-decoration-none" href="{{ path('admin_tools_slug', {'slug': tool.slug}) }}">
+																	<span class="badge bg-secondary p-1 m-1">
+																		{{tool.name}}
+																	</span>
+																</a>
+															{% endfor %}
+														</td>
+													{% endif %}
+													<td>
+														{% if project.projectLink is not empty %}
+															<a href="{{project.projectLink}}" target="_blank">
+																<i class="fa fa-link" aria-hidden="true"></i>
+															</a>
+														{% else %}
+															<p class="text-warning">
+																<i class="fas fa-ban"></i>
+																Pas de lien
+															</p>
+														{% endif %}
+													</td>
+
+													<td>
+														{% if project.githubLink is not empty %}
+															<a href="{{project.githubLink}}" target="_blank">
+																<i class="fa fa-link" aria-hidden="true"></i>
+															</a>
+														{% else %}
+															<p class="text-warning">
+																<i class="fas fa-ban"></i>
+																Pas de lien
+															</p>
+														{% endif %}
+													</td>
+													<td>
+														{% if project.imageName is not empty %}
+															<a href="{{ asset('images/project/'~ project.imageName)}}" data-lightbox={{project.imageName}} data-title="{{project.name}}" data-alt="{{project.name}}">
+																<img src="{{ asset('images/project/'~ project.imageName)}}" alt="{{project.name}}" class="img-fluid" style="width: 50px;">
+															</a>
+														{% else %}
+															<p class="text-warning">
+																<i class="fas fa-ban"></i>
+																Pas d'image
+															</p>
+														{% endif %}
+													</td>
+													<td>
+														{% if project.images is empty %}
+															<p class="text-warning">
+																<i class="fas fa-ban"></i>
+																Pas d'images
+															</p>
+														{% else %}
+															{% set nbImages = project.images|length %}
+															{% for image in project.images %}
+																<a href="{{ image.path }}" style="display: inline-block; margin: 0 5px 5px 0; text-decoration: none;" data-lightbox="roadtrip-{{project.id}}" data-title="{{project.name}}">
+																	{% if loop.index > 1 %}
+																		<img src="{{ image.path }}" alt="{{project.name}}" width="100px" height="100px" class="img-fluid d-none">
+																	{% else %}
+																		<img src="{{ image.path }}" alt="{{project.name}}" width="100px" height="100px" class="img-fluid">
+																		<i class="fas fa-search-plus"></i>
+																		<span class="text-muted">{{nbImages}}
+																			images</span>
+																	{% endif %}
+																</a>
+															{% endfor %}
+														{% endif %}
+													</td>
+													<td>
+														<span class="fs-8">{{project.year}}</span>
+													</td>
+													<td>
+														{% if project.lastUpdate is empty %}
+															-
+														{% else %}
+															<span class="fs-8">{{project.lastUpdate|date('d-m-Y')}}</span>
+														{% endif %}
+													</td>
+													<td>
+														<span class="badge bg-{{project.status.getColor}}">{{project.status.value}}</span>
+													</td>
+													<td class="text-center me-auto ms-auto">
+														<a href="{{ path('admin_projects_update', {'id': project.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Modifier">
+															<i class="fas fa-edit"></i>
+														</a>
+														<a href="{{ path('admin_projects_clone', {'id': project.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Cloner">
+															<i class="fas fa-clone"></i>
+														</a>
+														{% set itemId = project.id %}
+
+														{{ include('admin/_delete_form.html.twig') }}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="fs-7">Ajouté le
+							{{project.createdAt|date('d-m-Y')}}
+							à
+							{{project.createdAt|date('H:i:s')}}</p>
+						<p class="fs-7">Mis à jour le
+							{{project.updatedAt|date('d-m-Y')}}
+							à
+							{{project.updatedAt|date('H:i:s')}}</p>
+
+					</div>
+					<button class="btn redirect my-2 fs-7">
+						<a href="{{ path('admin_projects_index') }}">Retour</a>
+					</button>
+				</div>
+			</main>
+		{% endblock %}

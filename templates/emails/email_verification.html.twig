@@ -1,0 +1,15 @@
+<h1>Bonjour,
+	{{ user.firstname }} {{ user.lastname }}!</h1>
+<p>
+    Vous venez de créer un compte sur le site <a href="https://backoffice.edithbredon.fr">backoffice.edithbredon.fr</a>.
+</p>
+<p>
+    Pour activer votre compte, veuillez cliquer sur le lien suivant :
+</p>
+<p>
+    <a href="{{ url('verify_email', {'token': user.resetToken}) }}">Activer mon compte</a>
+</p>
+<p>
+    Cordialement,
+</p>
+   

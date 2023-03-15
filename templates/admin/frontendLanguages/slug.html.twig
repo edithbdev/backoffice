@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du langage frontend :
+	{{ frontendLanguage.name }}
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main class="mb-5">
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Langage frontend :
+						{{ frontendLanguage.name }}
+					</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item">
+							<a href="{{ path('homepage') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active">
+							<a href="{{ path('admin_frontendLanguages_index') }}">Liste des langages frontend</a>
+						</li>
+						<li class="breadcrumb-item active">
+							{{frontendLanguage.name}}
+						</li>
+					</ol>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-table mr-1" aria-hidden="true"></i>
+									Langage frontend :
+									{{frontendLanguage.name}}
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered w-100" id="dataTable">
+											<caption class="text-center">
+												Langages frontend
+											</caption>
+											<thead>
+												<tr>
+													<th scope="col">Id</th>
+													<th scope="col">Nom</th>
+													<th scope="col">Projet(s) associé(s)</th>
+													<th scope="col">Créé</th>
+													<th scope="col">Mise à jour</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th scope="row">{{ frontendLanguage.id }}</th>
+													<td>{{ frontendLanguage.name }}</td>
+													<td>
+														{% if projects is not empty %}
+															{% for project in projects %}
+																<a href="{{ path('admin_projects_slug', {'slug': project.slug}) }}">
+																	{{ project.name }}
+																</a>
+																<br>
+															{% endfor %}
+														{% else %}
+															<p class="text-warning">
+																<i class="fas fa-ban"></i>
+																Aucun projet associé !
+															</p>
+														{% endif %}
+													</td>
+													<td>
+														<span class="fs-8">{{frontendLanguage.createdAt|date('d-m-Y')}}
+															<br>
+															à
+															{{frontendLanguage.createdAt|date('H:i')}}
+														</span>
+													</td>
+													<td>
+														<span class="fs-8">{{frontendLanguage.updatedAt|date('d-m-Y')}}
+															<br>
+															à
+															{{frontendLanguage.updatedAt|date('H:i')}}
+														</span>
+													</td>
+													<td class="text-center me-auto ms-auto">
+														<a href="{{ path('admin_frontendLanguages_update', {'id': frontendLanguage.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Modifier">
+															<i class="fas fa-edit"></i>
+														</a>
+														{% set itemId = frontendLanguage.id %}
+
+														{{ include('admin/_delete_form.html.twig') }}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{% if projects is not empty %}
+						<div class="album py-2 bg-light">
+							<div class="container-fluid">
+								<h2 class="mb-4 mt-2">Les projets utilisant le langage frontend :
+									{{ frontendLanguage.name }}
+								</h2>
+								<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+									{% for project in projects %}
+										<div class="col d-flex align-self-normal mb-2">
+											<div class="card shadow-sm bg-white rounded w-100">
+												{% if not project.imageName %}
+													<img src="{{ asset('assets/images/default-image.jpeg')}}" alt="{{project.name}}" class="bd-placeholder-img card-img-top" width="100%" height="225">
+												{% else %}
+													<img src="{{ asset('images/project/'~ project.imageName)}}" alt="{{project.name}}" class="bd-placeholder-img card-img-top" width="100%" height="225">
+												{% endif %}
+												<div class="card-body">
+													<div class="d-flex justify-content-between align-items-center mb-2">
+														<span class="card-text">{{project.name}}</span>
+														<span class="badge bg-{{project.status.getColor}}">{{project.status.value}}</span>
+													</div>
+													<p class="card-text">
+														{% set strtruncate = truncate(project.description, 50) %}
+														{% set str = decodeHtmlEntities(strtruncate) %}
+														{{str|raw}}</p>
+													<small class="text-muted">
+														Crée le :
+														{{ project.createdAt|date('d/m/Y') }}
+														à
+														{{ project.createdAt|date('H:i') }}
+														<br>
+														Mise à jour le :
+														{{ project.updatedAt|date('d/m/Y') }}
+														à
+														{{ project.updatedAt|date('H:i') }}
+													</small>
+
+													<div class="d-flex justify-content-around align-items-center mt-2">
+														<a href="{{ path('admin_projects_slug', {'slug': project.slug}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Voir">
+															<i class="fas fa-eye"></i>
+														</a>
+														<a href="{{ path('admin_projects_update', {'id': project.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Modifier">
+															<i class="fas fa-edit"></i>
+														</a>
+														<a href="{{ path('admin_projects_clone', {'id': project.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Cloner">
+															<i class="fas fa-clone"></i>
+														</a>
+														<a href="{{ path('admin_projects_delete', {'id': project.id}) }}" class="btn btn-danger btn-sm my-2" onclick="confirmDelete(this)" data-item-name="{{ project.name }}" data-item-id="{{ project.id }}" data-token="{{ csrf_token('delete' ~ project.id) }}" data-url="{{ path('admin_projects_delete', {'id': project.id}) }}" data-bs-toggle="modal" data-placement="top" title="Supprimer" data-bs-target="#confirmDeleteModal{{ project.id }}">
+															<i class="fas fa-trash-alt"></i>
+														</a>
+													</div>
+													<hr class="my-2">
+													<div class="d-flex flex-column align-items-start py-2">
+														<small class="text-muted mb-2">
+															Langages frontend :
+															{% for frontendLanguage in project.frontendLanguages %}
+																<a class="text-decoration-none" href="{{ path('admin_frontendLanguages_slug', {'slug': frontendLanguage.slug}) }}">
+																	<span class="badge bg-secondary mb-1">
+																		{{frontendLanguage.name}}
+																	</span>
+																</a>
+															{% endfor %}
+														</small>
+														<small class="text-muted mb-2">
+															Outils :
+															{% if project.tools is empty %}
+																<span class="text-warning">
+																	<i class="fas fa-ban"></i>
+																	Pas d'outils !</span>
+															{% else %}
+																{% for tool in project.tools %}
+																	<a class="text-decoration-none" href="{{ path('admin_tools_slug', {'slug': tool.slug}) }}">
+																		<span class="badge bg-secondary mb-1">
+																			{{tool.name}}
+																		</span>
+																	</a>
+																{% endfor %}
+															{% endif %}
+														</small>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					<button class="btn redirect my-2 fs-7">
+						<a href="{{ path('admin_frontendLanguages_index') }}">Retour</a>
+					</button>
+				</div>
+			</main>
+		{% endblock %}

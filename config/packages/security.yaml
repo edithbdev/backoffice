@@ -1,0 +1,103 @@
+framework:
+    rate_limiter:
+        # define 2 rate limiters (one for username+IP, the other for IP)
+        username_ip_login:
+            policy: token_bucket
+            limit: 10
+            rate: { interval: '5 minutes' }
+
+        ip_login:
+            policy: sliding_window
+            limit: 50
+            interval: '10 minutes'
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: auto
+            cost: 13
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false # disable security for the dev environment
+        main:
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            # json_login is stateless, so you can use it for your API
+            # json_login:
+            #     check_path: /api/login
+            # http_basic determines if the user is logged in or not
+            http_basic:
+                realm: "Secured Area"
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: app_login
+            # entry_point defines where to redirect if user is not logged in
+            entry_point: App\Security\LoginFormAuthenticator
+            # configure the maximum login attempts
+            login_throttling:
+                max_attempts: 5 # per minute
+                # interval: 15 minutes
+
+            remember_me:
+                secret:   '%kernel.secret%' # required
+                lifetime: 604800 # 1 week in seconds
+                # by default, the feature is enabled by checking a
+                # checkbox in the login form (see below), uncomment the
+                # following line to always enable it.
+                always_remember_me: true
+                name: remember_me
+                # signature properties are used to generate the hash of the cookie contents
+                signature_properties: ['password', 'updatedAt']
+                token_provider:
+                    doctrine: true
+                path: app_login
+
+        # activate different ways to authenticate
+        secured_area:
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                default_target_path: homepage # where to go after login success
+                always_use_default_target_path: true
+                # use forward instead of redirect
+                use_forward: false
+                # use csrf protection
+                enable_csrf: true
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#the-firewall
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^/contact, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+when@test:
+    security:
+        password_hashers:
+            # By default, password hashers are resource intensive and take time. This is/cookbook/debugging.html
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

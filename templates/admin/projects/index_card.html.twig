@@ -1,0 +1,130 @@
+<div class="album py-4 bg-light">
+	<div class="container-fluid">
+		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 g-3">
+			{% for project in projects %}
+				<div class="col d-flex align-self-normal">
+					<div class="card shadow-sm bg-white rounded w-100">
+						{% if not project.imageName %}
+							<img src="{{ asset('assets/images/default-image.jpeg')}}" alt="{{project.name}}" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;">
+						{% else %}
+							<img src="{{ asset('images/project/'~ project.imageName)}}" alt="{{project.name}}" class="card-img-top img-fluid" style="height: 200px; object-fit: cover; object-position: top;">
+						{% endif %}
+						<div class="card-body">
+							<div class="d-flex justify-content-between align-items-center">
+								<span class="card-text">{{project.name}}</span>
+								<span class="badge bg-{{project.status.getColor}}">{{project.status.value}}</span>
+							</div>
+							<br>
+							{% set strtruncate = truncate(project.description, 50) %}
+							{% set str = decodeHtmlEntities(strtruncate) %}
+							<small class="card-text">
+								{{str|raw}}
+							</small>
+							<br>
+							<small class="text-muted">
+								Crée :
+								{{project.createdAt|date('d-m-Y')}}
+								à
+								{{project.createdAt|date('H:i')}}
+								<br>
+								Mis à jour :
+								{{project.updatedAt|date('d-m-Y')}}
+								à
+								{{project.updatedAt|date('H:i')}}
+							</small>
+							<hr>
+							<div class="d-flex justify-content-between align-items-center">
+								<small class="text-muted mb-2">
+									Frontend :
+									{% if project.frontendLanguages is empty %}
+										<p class="text-warning">
+											<i class="fas fa-ban"></i>
+											Pas de langage frontend
+										</p>
+									{% else %}
+										{% for frontendLanguage in project.frontendLanguages %}
+											<a class="text-decoration-none" href="{{ path('admin_frontendLanguages_slug', {'slug': frontendLanguage.slug}) }}">
+												<span class="badge bg-secondary mb-1">
+													{{frontendLanguage.name}}
+												</span>
+											</a>
+										{% endfor %}
+									{% endif %}
+								</small>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<small class="text-muted mb-2">
+									Backend :
+									{% if project.backendLanguages is empty %}
+										<p class="text-warning">
+											<i class="fas fa-ban"></i>
+											Pas de langage backend
+										</p>
+									{% else %}
+										{% for backendLanguage in project.backendLanguages %}
+											<a class="text-decoration-none" href="{{ path('admin_backendLanguages_slug', {'slug': backendLanguage.slug}) }}">
+												<span class="badge bg-secondary mb-1">
+													{{backendLanguage.name}}
+												</span>
+											</a>
+										{% endfor %}
+									{% endif %}
+								</small>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<small class="text-muted mb-2">
+									Outils:
+									{% if project.tools is empty %}
+										<p class="text-warning">
+											<i class="fas fa-ban"></i>
+											Pas d'outils
+										</p>
+									{% else %}
+										{% for tool in project.tools %}
+											<a class="text-decoration-none" href="{{ path('admin_tools_slug', {'slug': tool.slug}) }}">
+												<span class="badge bg-secondary mb-1">
+													{{tool.name}}
+												</span>
+											</a>
+										{% endfor %}
+									{% endif %}
+								</small>
+							</div>
+							<hr class="mt-2">
+							<div class="btn-group d-flex justify-content-around align-items-center">
+								<a href="{{ path('admin_projects_slug', {'slug': project.slug}) }}" data-toggle="tooltip" data-placement="top" title="Voir">
+									<button type="button" class="btn btn-primary btn-sm">
+										<i class="fas fa-eye"></i>
+									</button>
+								</a>
+								<a href="{{ path('admin_projects_update', {'id': project.id}) }}" data-toggle="tooltip" data-placement="top" title="Modifier">
+									<button type="button" class="btn btn-primary btn-sm">
+										<i class="fas fa-edit"></i>
+									</button>
+								</a>
+								<a href="{{ path('admin_projects_clone', {'id': project.id}) }}" data-toggle="tooltip" data-placement="top" title="Cloner">
+									<button type="button" class="btn btn-primary btn-sm">
+										<i class="fas fa-clone"></i>
+									</button>
+								</a>
+
+								{% set itemId = project.id %}
+
+								{{ include('admin/_delete_form_card.html.twig') }}
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<div class="text-center mt-1">
+	<a href="#">
+		<i class="fa-solid fa-arrow-circle-up"></i>
+		Retour au début</a>
+</div>
+<div class="navigation d-flex justify-content-center mt-4">
+
+	{{ knp_pagination_render(projects) }}
+</div>

@@ -1,0 +1,27 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{# pour test : https://localhost:8000/_error/404 #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="layoutError">
+            <div id="layoutError_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="text-center mt-5 py-4">
+                                    <img class="mb-4 img-error" src="{{ asset('assets/images/error-404-monochrome.svg') }}" alt="error-404">
+                                    <p class="lead">La page que vous recherchez n'existe pas.</p>
+                                    <a href="{{ path('homepage') }}">
+                                        <i class="fa fa-arrow-left me-1"></i>
+                                        Retour à la page d'accueil
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+<div id="layoutError_footer">
+
+{% endblock %}
