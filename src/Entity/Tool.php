@@ -46,7 +46,6 @@ class Tool
     private string $name;
 
     #[ORM\Column(type: 'text')]
-    #[Assert\NotBlank(message: 'Merci de renseigner une description')]
     #[Groups(['project_read'])]
     private ?string $description = null;
 
