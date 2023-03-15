@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Se connecter !
+{% endblock %}
+
+{% block stylesheets %}
+	<style>
+		body {
+			background-image: url("{{ asset('assets/images/portfolio.jpg') }}");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			background-attachment: fixed;
+			-webkit-backdrop-filter: blur(5px);
+			backdrop-filter: blur(5px);
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	<main>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<h1 class="text-center font-weight-light my-3" style="color: #fff;">Backoffice de mon
+					<a href="https://edithbredon.fr" style="color: #fff;">Portfolio</a>
+				</h1>
+				<div class="col-lg-5 col-md-6 col-sm-6 col-12">
+					<div class="card shadow-lg border-0 rounded-lg mt-3 mb-3">
+						<div class="card-header">
+							<h2 class="text-center font-weight-light my-2">Se connecter</h2>
+							{% include '_partials/_flash_messages.html.twig' %}
+						</div>
+						<div class="card-body">
+							<form action="{{ path('app_login') }}" method="post" name="login">
+								{% if error %}
+									<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+								{% endif %}
+								<div class="mb-2">
+									<label class="py-1" for="inputEmail">Email</label>
+									<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="email@exemple.com">
+								</div>
+								<div class="inputCustom">
+									<div class="mb-2">
+										<label class="p-1" for="registration_form_password">Mot de passe</label>
+										<a href="#" id="see_password" onclick="showPassword()" style="float: right; top: 41px; right: 10px; color: #000; position: absolute;font-size: 13px;">
+											afficher
+										</a>
+										<input type="password" value="" name="password" id="registration_form_password" class="form-control" autocomplete="current-password" required placeholder="Votre mot de passe">
+									</div>
+								</div>
+								<div class="form-check mb-2">
+									<input class="form-check-input" id="inputRememberPassword" name="_remember_me" type="checkbox" value=""/>
+									<label class="form-check-label" for="inputRememberPassword">Se souvenir de moi</label>
+								</div>
+								<div class="d-flex align-items-center justify-content-between mt-4 mb-4">
+									<a href="{{ path('forgotten_password_request') }}">Mot de passe oublié ?</a>
+
+									<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+									<button class="btn btn-sm btn-primary" type="submit" onclick="this.disabled=true;this.form.submit();">
+										Se connecter
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+{% endblock %}

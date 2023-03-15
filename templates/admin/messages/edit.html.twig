@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le message
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Modification du message de
+						{{ message.email }}
+						</h1>
+						<ol class="breadcrumb mb-4">
+							<li class="breadcrumb-item">
+								<a href="{{ path('homepage') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('admin_messages_index') }}">Liste des messages</a>
+							</li>
+							<li class="breadcrumb-item active">Modification du message de
+							{{ message.email }}
+							</li>
+						</ol>
+						<div class="row">
+							<form novalidate action="{{ path('admin_messages_update', {'id': message.id}) }}" name="message" method="post" enctype="multipart/form-data" role="form">
+								<div class="col-lg-12">
+									<div class="card mb-4">
+										<div class="card-header">
+											<i class="fas fa-table mr-1" aria-hidden="true"></i>
+											Modification du message de
+										</div>
+										<div class="card-body">
+											<div class="form-group">
+											{{ form_row(form.firstname)}}
+                                            </div>
+											<div class="form-group">
+                                            {{ form_row(form.lastname) }}
+											</div>
+											<div class="form-group">
+											{{ form_row(form.email) }}
+                                            </div>
+											<div class="form-group">
+                                            {{ form_row(form.subject) }}
+                                            </div>
+											<div class="form-group">
+                                            {{ form_row(form.message) }}
+											</div>
+											<div class="form-group">
+                                            {{ form_row(form.isRead) }}
+											</div>
+											<div class="form-group">
+                                            {{ form_row(form.isAnswered) }}
+											</div>
+											<div class="form-group">
+                                            {{ form_row(form.comment) }}
+											</div>
+											
+											<button class="btn btn-primary mt-4 mb-5">{{ button_label|default('Modifier') }}</button>
+											<button class="btn redirect mt-4 mb-5">
+												{# <a href="{{ path('admin_messages_index') }}">Retour</a> #}
+												{# Récupérer l'URL de la page précédente #}
+												<a href="{{ app.request.headers.get('referer') }}">Retour</a>
+											</button>
+											{{ form_row(form._token) }}
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</main>
+		{% endblock %}

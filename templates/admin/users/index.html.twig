@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					{% if not users.items is same as([]) %}
+						<h1 class="mt-4">Liste des utilisateurs</h1>
+						<ol class="breadcrumb mb-4">
+							<li class="breadcrumb-item">
+								<a href="{{ path('homepage') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item active">Liste des utilisateurs</li>
+						</ol>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card mb-4">
+									<div class="card-header">
+										<i class="fas fa-table mr-1" aria-hidden="true"></i>
+										Liste des utilisateurs
+										<div class="d-flex justify-content-end">
+											<a href="{{ path('admin_users_create') }}" class="btn btn-success">
+												<i class="fas fa-plus"></i>
+												Nouveau</a>
+										</div>
+									</div>
+									<div class="count m-4">Total des utilisateurs :
+										{{ users.getTotalItemCount }}
+									</div>
+									<div class="card-body">
+										<div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+											<div class="dataTable-container">
+												<table class="table w-100" data-toggle="table" data-search="true" id="dataTable">
+													<caption class="text-center">Liste des utilisateurs</caption>
+													<thead>
+														<tr>
+															<th scope="col" data-sortable="true" data-field="id">Id</th>
+															<th scope="col" data-sortable="true" data-field="lastname">Nom</th>
+															<th scope="col" data-sortable="true" data-field="firstname">Prénom</th>
+															<th scope="col" data-sortable="true" data-field="email">Email</th>
+															<th scope="col" data-sortable="true" data-field="roles">Rôle(s)</th>
+															<th scope="col" data-sortable="true">Crée</th>
+															<th scope="col" data-sortable="true">Mise à jour</th>
+															<th scope="col" data-sortable="true">Vérifié</th>
+															<th scope="col">Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														{% for user in users %}
+															<tr>
+																<th scope="row">{{ user.id }}</th>
+																<td>{{ user.lastname }}</td>
+																<td>{{ user.firstname }}</td>
+																<td>{{ user.email }}</td>
+																<td>
+																	{% for role in user.roles %}
+																		{{role}}
+																		{% if not loop.last %}|
+																		{% endif %}
+																	{% endfor %}
+																</td>
+																<td>
+																	<span class="fs-8">{{user.createdAt|date('d-m-Y')}}
+																		<br>
+																		à
+																		{{user.createdAt|date('H:i')}}
+																	</span>
+																</td>
+																<td>
+																	<span class="fs-8">{{user.updatedAt|date('d-m-Y')}}
+																		<br>
+																		à
+																		{{user.updatedAt|date('H:i')}}
+																	</span>
+																</td>
+																<td>
+																	{% if user.isVerified == 1 %}
+																		<span class="badge bg-success">
+																			<i class="fa-solid fa-check" aria-hidden="true"></i>
+																		</span>
+																	{% else %}
+																		<span class="badge bg-danger">
+																			<i class="fa-solid fa-times" aria-hidden="true"></i>
+																		</span>
+																	{% endif %}
+																</td>
+																<td class="text-center me-auto ms-auto">
+																	<a href="{{ path('admin_users_slug', {'slug': user.slug}) }}" class="btn btn-primary btn-sm my-2" style="white-space: nowrap;" data-toggle="tooltip" data-placement="top" title="Voir">
+																		<i class="fas fa-eye"></i>
+																	</a>
+																	<a href="{{ path('admin_users_update', {'id': user.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Modifier">
+																		<i class="fas fa-edit"></i>
+																	</a>
+																	{% if is_granted('ROLE_ADMIN') %}
+																		<a href="{{ path('admin_users_login', {'id': user.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Se connecter">
+																			<i class="fas fa-sign-in-alt"></i>
+																		</a>
+																	{% endif %}
+																	{% set itemId = user.id %}
+
+																	{{ include('admin/_delete_form.html.twig') }}
+																</td>
+															</tr>
+														{% endfor %}
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<p class="float text-center">
+										<a href="#">
+											<i class="fa-solid fa-arrow-circle-up" aria-hidden="true"></i>
+											Retour au début</a>
+									</p>
+									<div class="navigation d-flex justify-content-center mt-4">
+										{{ knp_pagination_render(users) }}
+									</div>
+								</div>
+							</div>
+						</div>
+
+					{% else %}
+						<div class="row mt-5">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="alert alert-warning" role="alert">
+													<h4 class="alert-heading">Aucun user !</h4>
+													<hr>
+													<p class="mb-0">Vous pouvez en créer un en cliquant sur le bouton ci-dessous.</p>
+													<a href="{{ path('admin_users_create') }}" class="btn btn-primary mt-2">
+														<i class="fas fa-plus"></i>
+														Créer un user
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</main>
+			{% endblock %}

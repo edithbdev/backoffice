@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-100 w-100 m-0 p-0">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<meta name="description" content="Backoffice portfolio Edith Bredon"/>
+		<meta name="author" content="Edith Bredon"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+		<meta name="apple-mobile-web-app-title" content="Backoffice portfolio Edith Bredon"/>
+
+		<title>
+			{% block title %}Accueil
+			{% endblock %}
+			- Backoffice portfolio Edith bredon</title>
+
+		<link rel="icon" type="image/x-icon" href="/assets/favicon.ico"/>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
+
+		<link
+		rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"/>
+		{# <link rel="stylesheet" href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css">   #}
+		<link
+		rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css"/>
+
+		<!-- the fileinput plugin styling CSS file -->
+		<link
+		href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css"/>
+		<!-- if using RTL (Right-To-Left) orientation, load the RTL CSS file after fileinput.css by uncommenting below -->
+		<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/css/fileinput-rtl.min.css" media="all" rel="stylesheet" type="text/css">
+		
+ 		{% block stylesheets %}{% endblock %}
+		<link rel="preload" href="{{ asset('assets/css/bootstrap.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<link rel="preload" href="{{ asset('assets/css/styles.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<link rel="preload" href="{{ asset('assets/css/lightbox.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<link rel="preload" href="{{ asset('assets/css/lightbox.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+		<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('assets/css/lightbox.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('assets/css/lightbox.min.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}"/>
+	</head>
+	{% if app.user %} 
+	<body class="sb-nav-fixed">
+		<!-- Navigation -->
+		{% include "_partials/_nav.html.twig" %}
+		<!-- Footer -->
+		{% include "_partials/_footer.html.twig" %}
+	{% else %}
+	<body>   
+	{% include "_partials/_footer.html.twig" %}
+	{% endif %}
+
+
+	{% block body %}{% endblock %}
+	<!-- Scripts -->
+
+	<script src="https://www.google.com/recaptcha/api.js?render=explicit&hl=fr"></script>
+
+	<!-- the jQuery Library -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.16.0/bootstrap-table.min.js"></script>
+
+	<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous" async></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+
+	<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/buffer.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/filetype.min.js"></script>
+
+	<!-- piexif.min.js is needed for auto orienting image files OR when restoring exif data in resized images and when you
+				    wish to resize images before upload. This must be loaded before fileinput.min.js -->
+	<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/piexif.min.js"></script>
+
+	<!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview. 
+				    This must be loaded before fileinput.min.js -->
+	<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/sortable.min.js"></script>
+
+	<!-- the main fileinput plugin script JS file -->
+	<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/fileinput.min.js"></script>
+
+	<!-- following theme script is needed to use the Font Awesome 5.x theme (`fa5`). Uncomment if needed. -->
+	<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/themes/fa5/theme.min.js"></script>
+
+	<!-- optionally if you need translation for your language then include the locale file as mentioned below (replace LANG.js with your language locale) -->
+	<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/locales/fr.js"></script>
+
+
+	{% block javascripts %}{% endblock %}
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}" async></script>
+	<script src="{{ asset('assets/js/lightbox.js') }}" async></script>
+	<script src="{{ asset('assets/js/scripts.js') }}" async></script>
+</body>
+</html>

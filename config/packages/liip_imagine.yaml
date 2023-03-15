@@ -1,0 +1,69 @@
+# Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+    resolvers:
+        default:
+            web_path:
+                web_root: '%kernel.project_dir%/public'
+                cache_prefix: 'media/cache'
+    loaders:
+        default:
+            filesystem:
+                data_root: '%kernel.project_dir%/public'
+
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+
+    driver: "imagick"
+    cache: "default"
+    data_loader: "default"
+    default_image: '%kernel.project_dir%/public/assets/images/default-image.jpeg'
+    twig:
+        mode: lazy
+
+    default_filter_set_settings:
+        quality: 75
+        # filters:
+        #     thumbnail: { size: [100, 100], mode: outbound }
+        #     medium: { size: [300, 300], mode: outbound }
+        #     large: { size: [600, 600], mode: outbound }
+        #     xlarge: { size: [1200, 1200], mode: outbound }
+    # controller:
+    #     filter_action: 'liip_imagine.controller:filterAction'
+    #     filter_runtime_action: 'liip_imagine.controller:filterRuntimeAction'
+    #     redirect_response_code: 302
+    webp:
+        generate: true
+        quality: 75
+        cache: ~
+        data_loader: ~
+
+    filter_sets:
+        cache: ~
+        # The default filter set
+        default:
+            # The quality of the image (0-100)
+            quality: 75
+            # The filters to apply to the image
+            filters:
+                # The medium filter
+                # réduire l'image tout en gardant les proportions de l'image originale
+                medium:
+                    # The size of the image
+                    size: [300, 330]
+                    # The mode of the image
+                    mode: outbound
+
+
+        mini:
+            # The quality of the image (0-100)
+            quality: 75
+            # The filters to apply to the image
+            filters:
+                # The thumbnail filter
+                thumbnail: { size: [120, 90], mode: outbound }
+                # # The medium filter
+                # medium: { size: [300, 300], mode: outbound }
+                # # The large filter
+                # large: { size: [600, 600], mode: outbound }
+                # # The xlarge filter
+                # xlarge: { size: [1200, 1200], mode: outbound }
+

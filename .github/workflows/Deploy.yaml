@@ -1,0 +1,52 @@
+name: SSH deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SSHPASS: ${{ secrets.APP_PASS }}
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Install Node.js and NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies Node.js dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Install SSHpass
+        run: sudo apt-get update && sudo apt-get install sshpass
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Install Dependencies PHP
+        run: composer install --no-dev --no-scripts --no-interaction
+
+      - name: deploy
+        run:
+          sshpass -e ssh -o stricthostkeychecking=no ${{ secrets.APP_USER }}@${{ secrets.APP_HOST }}
+          "cd public_html/backoffice &&
+          git pull &&
+          php composer.phar install --no-dev &&
+          php bin/console doctrine:migrations:migrate -n --env=prod --all-or-nothing ||
+          php bin/console doctrine:schema:update --complete --force"

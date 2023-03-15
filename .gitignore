@@ -1,0 +1,62 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.prod
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/public/images/
+/public/coverage
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+/.contributing.md
+/.contributingTest.md
+/.contributingDocker.md
+/.contributingDeploySSH.md
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+/doc/
+
+###> node_modules ###
+/node_modules
+
+###>public/media ###
+/public/media
+
+###>public/uploads ###
+/public/uploads
+
+###>public/images ###
+/public/images
+
+###>Coverage ###
+/public/test-coverage
+
+###>.env.test ###
+/.env.test
+
+/config/secrets/prod/prod.decrypt.private.php
+
+###>node_modules ###
+/node_modules/
+
+/.htaccess
+
+###>composer phar ###
+/composer.phar

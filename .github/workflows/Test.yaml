@@ -1,0 +1,37 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  code-quality:
+    name: PHPStan & PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.2' ]
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - uses: actions/checkout@v3
+
+      - name: Copy .env.test
+        run: echo "${{ secrets.ENV_TEST_CONTENT }}" > .env
+
+      - name: Install dependencies
+        run: composer install --ansi --prefer-dist --no-interaction --no-progress
+
+      - name: Install PHP-CS-Fixer
+        run: composer require --ansi --prefer-dist --no-interaction --no-progress friendsofphp/php-cs-fixer
+
+      - name: Run Code Quality checks
+        run: composer phpstan
+
+      - name: Run PHPUnit
+        run: composer test

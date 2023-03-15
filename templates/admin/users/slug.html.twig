@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de l'utilisateur
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main class="mb-5">
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Projet:
+						{{user.firstname}}
+						{{user.lastname}}</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item">
+							<a href="{{ path('homepage') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active">
+							<a href="{{ path('admin_users_index') }}">Liste des utilisateurs</a>
+						</li>
+						<li class="breadcrumb-item active">
+							{{ user.lastname }}{{ user.firstname }}
+						</li>
+					</ol>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-table mr-1" aria-hidden="true"></i>
+									utilisateur:
+									{{user.firstname}}
+									{{user.lastname}}
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered w-100" id="dataTable">
+											<caption class="text-center">Détails de l'utilisateur</caption>
+											<thead>
+												<tr>
+													<th scope="col">Id</th>
+													<th scope="col">Nom</th>
+													<th scope="col">Prénom</th>
+													<th scope="col">Email</th>
+													<th scope="col">Rôles</th>
+													<th scope="col">Crée</th>
+													<th scope="col">Mise à jour</th>
+													<th scope="col">Vérifié</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th scope="row">{{ user.id }}</th>
+													<td>{{ user.lastname }}</td>
+													<td>{{ user.firstname }}</td>
+													<td>{{ user.email }}</td>
+													<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+													<td>{{ user.createdAt|date('d/m/Y') }}
+														à
+														{{ user.createdAt|date('H:i:s') }}</td>
+													<td>{{ user.updatedAt|date('d/m/Y') }}
+														à
+														{{ user.updatedAt|date('H:i:s') }}</td>
+													<td>
+														{% if user.isVerified == true %}
+															<i class="fas fa-check-circle text-success"></i>
+														{% else %}
+															<i class="fas fa-times-circle text-danger"></i>
+														{% endif %}
+													</td>
+													<td class="text-center me-auto ms-auto">
+														<a href="{{ path('admin_users_update', {'id': user.id}) }}" class="btn btn-primary btn-sm my-2" data-toggle="tooltip" data-placement="top" title="Modifier">
+															<i class="fas fa-edit"></i>
+														</a>
+														{% set itemId = user.id %}
+
+														{{ include('admin/_delete_form.html.twig') }}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							{% if user.lastlogin %}
+								<p class="fs-7">Dernière connexion :
+									{{ user.lastlogin|format_datetime( locale='fr', timezone='Europe/Paris') }}</p>
+							{% else %}
+								<p class="fs-7">Ce compte n'a jamais été connecté</p>
+							{% endif %}
+							{% if user.countSession %}
+								<p class="fs-7">Nombre de connexions :
+									{{ user.countSession }}</p>
+							{% endif %}
+						</div>
+					</div>
+					<button class="btn redirect my-2 fs-7">
+						<a href="{{ path('admin_users_index') }}">Retour</a>
+					</button>
+				</div>
+			</main>
+		{% endblock %}

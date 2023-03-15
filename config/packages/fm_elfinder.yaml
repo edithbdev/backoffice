@@ -1,0 +1,40 @@
+fm_elfinder:
+    #assets_path: ./assets # chemin des fichiers JS
+    instances:
+        default:
+            locale: en # langue
+            editor: ckeditor # Editeur utilisé pour l'intégration
+            theme: smoothness # Thème à utiliser
+            relative_path: false # chemin relatif
+            connector:
+                roots:
+                    uploads:
+                        driver: LocalFileSystem
+                        path: uploads/images
+                        show_hidden: false # Masque les fichiers cachés
+                        upload_allow: ['image/png', 'image/jpg', 'image/jpeg'] # Fichiers autorisés
+                        upload_deny: ['all'] # Fichiers interdits
+                        upload_max_size: 2M # Taille maximum des fichiers
+
+
+
+
+# fm_elfinder:
+#     assets_path: /assets # chemin des fichiers JS
+#     instances:
+#         default:
+#             locale: fr # Langue
+#             editor: ckeditor # Editeur utilisé
+#             fullscreen: true # Taille d'affichage
+#             theme: smoothness # Thème à utiliser
+#             #include_assets: true # Charge automatiquement les fichiers nécessaires
+#             connector:
+#                 debug: false # Désactive le débug
+#                 roots:
+#                     uploads:
+#                         show_hidden: false # Masque les fichiers cachés
+#                         driver: LocalFileSystem # Pilote des fichiers
+#                         path: uploads/images # Chemin d'upload
+#                         upload_allow: ['image/png', 'image/jpg', 'image/jpeg'] # Fichiers autorisés
+#                         upload_deny: ['all'] # Fichiers interdits
+#                         upload_max_size: 2M # Taille maximum

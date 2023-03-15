@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<main class="mb-5">
+				<div class="container-fluid px-4">
+					{% for message in app.flashes('success') %}
+						<div class="alert alert-success mt-4">
+							{{ message }}
+						</div>
+					{% endfor %}
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<h1 class="mt-4">Bienvenue
+							{{ app.user.firstname }}
+							{{ app.user.lastname }}
+							!
+						</h1>
+					{% endif %}
+
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">Accueil</li>
+					</ol>
+					<div class="row">
+						<div class="col-xl-3 col-md-4">
+							<div class="card bg-primary text-white mb-4">
+								<div class="card-body d-flex justify-content-between align-items-center">
+										<div>Projets</div>
+										<div>
+											<a href="{{ path ('admin_projects_create') }}" class="btn btn-sm btn-success">
+												<i class="fas fa-plus"></i> Nouveau
+											</a>
+										</div>
+								</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="{{ path ('admin_projects_index') }}">Voir la liste</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-4">
+							<div class="card bg-danger text-white mb-4">
+								<div class="card-body">Projets archivés</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="{{ path ('admin_projects_archived') }}">Voir la liste</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-4">
+							<div class="card bg-dark text-white mb-4">
+								<div class="card-body">Utilisateurs</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="{{ path ('admin_users_index') }}">Voir la liste</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-4">
+							<div class="card bg-dark text-white mb-4">
+								<div class="card-body">Messages
+									<span class="badge bg-primary text-white ms-1 rounded-pill">
+										{{ countUnreadMessages() }} non lus
+									</span>
+								</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="{{ path ('admin_messages_index') }}">Voir la liste</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr/>
+						<div class="col-xl-3 col-md-4">
+							<div class="card bg-secondary text-white mb-4">
+								<div class="card-body d-flex justify-content-between align-items-center">
+									<div>Frontend</div>
+									<div>
+										<a href="{{ path ('admin_frontendLanguages_create') }}" class="btn btn-sm btn-success">
+											<i class="fas fa-plus"></i> Nouveau
+										</a>
+									</div>
+								</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="{{ path ('admin_frontendLanguages_index') }}">Voir la liste</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-4">
+							<div class="card bg-secondary text-white mb-4">
+								<div class="card-body d-flex justify-content-between align-items-center">
+									<div>Backend</div>
+									<div>
+										<a href="{{ path ('admin_backendLanguages_create') }}" class="btn btn-sm btn-success">
+											<i class="fas fa-plus"></i> Nouveau
+										</a>
+									</div>
+								</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="{{ path ('admin_backendLanguages_index') }}">Voir la liste</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-4">
+							<div class="card bg-secondary text-white mb-4">
+								<div class="card-body d-flex justify-content-between align-items-center">
+									<div>Outils</div>
+									<div>
+										<a href="{{ path ('admin_tools_create') }}" class="btn btn-sm btn-success">
+											<i class="fas fa-plus"></i> Nouveau
+										</a>
+									</div>
+								</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="{{ path ('admin_tools_index') }}">Voir la liste</a>
+									<div class="small text-white">
+										<i class="fas fa-angle-right" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		{% endblock %}

@@ -1,0 +1,31 @@
+{% for label, messages in app.flashes %}
+	{% for message in messages %}
+		<div class="alert alert-{{ label }} alert-dismissible" role="alert">
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			<div
+				class='alert-message'>
+				{# raw is used to display the message as html #}
+				{{ message|raw }}
+			</div>
+		</div>
+	{% endfor %}
+{% endfor %}
+
+{% block javascripts %}
+	<script>
+		$(document).ready(function () {
+		$('.alert-info').delay(3000).fadeOut();
+	});
+	</script>
+	<script>
+		$(document).ready(function () {
+		$('.alert-success').delay(5000).fadeOut();
+	});
+	</script>
+	<script>
+		$(document).ready(function () {
+		$('.alert-warning').delay(5000).fadeOut();
+	});
+	</script>
+
+{% endblock %}

@@ -1,0 +1,156 @@
+<div class="card-body">
+	<div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+		<div class="dataTable-container">
+			<table class="table w-100" data-toggle="table" data-search="true" id="dataTable">
+				<caption class="text-center">Liste des projets</caption>
+				<thead>
+					<tr>
+						<th scope="col" data-sortable="true" data-field="id">
+							Id
+						</th>
+						<th scope="col" data-sortable="true" data-field="name">
+							Nom
+						</th>
+						<th scope="col" data-sortable="true" data-field="description">
+							Description
+						</th>
+						<th scope="col" data-sortable="true" data-field="frontendLanguages">
+							Frontend
+						</th>
+						<th scope="col" data-sortable="true" data-field="backendLanguages">
+							Backend
+						</th>
+						<th scope="col" data-sortable="true" data-field="tools">
+							Outils
+						</th>
+						<th scope="col">Lien projet</th>
+						<th scope="col">Lien github</th>
+						<th scope="col">Vignette</th>
+						<th scope="col">Images</th>
+						<th scope="col" data-sortable="true">Année</th>
+						<th scope="col" data-sortable="true">Der. mise à jour</th>
+						<th scope="col" data-sortable="true">Status</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for project in projects %}
+						<tr>
+							<th scope="row">{{ project.id }}</th>
+							<td>{{ project.name }}</td>
+							{% set strtruncate = truncate(project.description, 100) %}
+							{% set str = decodeHtmlEntities(strtruncate) %}
+							<td>{{str|raw}}</td>
+							<td>
+								{% if project.frontendLanguages is empty %}
+									<p class="text-warning">
+										<i class="fas fa-ban"></i>
+										Pas de langage frontend
+									</p>
+								{% else %}
+									{% for frontendLanguage in project.frontendLanguages %}
+										<p>{{frontendLanguage.name}}</p>
+									{% endfor %}
+								{% endif %}
+							</td>
+							<td>
+								{% if project.backendLanguages is empty %}
+									<p class="text-warning">
+										<i class="fas fa-ban"></i>
+										Pas de backend
+									</p>
+								{% else %}
+									{% for backendLanguage in project.backendLanguages %}
+										<p>{{backendLanguage.name}}</p>
+									{% endfor %}
+								{% endif %}
+							</td>
+							<td>
+								{% if project.tools is empty %}
+									<p class="text-warning">
+										<i class="fas fa-ban"></i>
+										Pas d'outils
+									</p>
+								{% else %}
+									{% for tool in project.tools %}
+										<p>{{tool.name}}</p>
+									{% endfor %}
+								{% endif %}
+							</td>
+							<td>
+								{% if project.projectLink is not empty %}
+									<a href="{{project.projectLink}}" target="_blank">
+										<i class="fa fa-link" aria-hidden="true"></i>
+									</a>
+								{% else %}
+									<p class="text-warning">
+										<i class="fas fa-ban"></i>
+										Pas de lien
+									</p>
+								{% endif %}
+							</td>
+							<td>
+								{% if project.githubLink is not empty %}
+									<a href="{{project.githubLink}}" target="_blank">
+										<i class="fa fa-link" aria-hidden="true"></i>
+									</a>
+								{% else %}
+									<p class="text-warning">
+										<i class="fas fa-ban"></i>
+										Pas de lien
+									</p>
+								{% endif %}
+							</td>
+							<td>
+								{% if project.imageName is not empty %}
+									<a href="{{ asset('images/project/'~ project.imageName)}}" data-lightbox={{project.imageName}} data-title="{{project.name}}" data-alt="{{project.name}}">
+										<img src="{{ asset('images/project/'~ project.imageName)}}" alt="{{project.name}}" class="img-fluid" style="width: 50px;">
+									</a>
+								{% else %}
+									<img src="{{ asset('assets/images/default-image.jpeg')}}" alt="{{project.name}}" class="img-fluid" width="50px" height="50px">
+								{% endif %}
+							</td>
+							<td>
+								{% if project.images is empty %}
+									<img src="{{ asset('assets/images/default-image.jpeg')}}" alt="{{project.name}}" class="img-fluid" width="100px" height="100px">
+								{% else %}
+									{% set nbImages = project.images|length %}
+									{% for image in project.images %}
+										<a href="{{ image.path }}" style="display: inline-block; margin: 0 5px 5px 0; text-decoration: none;" data-lightbox="roadtrip-{{project.id}}" data-title="{{project.name}}">
+											{% if loop.index > 1 %}
+												<img src="{{ image.path }}" alt="{{project.name}}" width="100px" height="100px" class="img-fluid d-none">
+											{% else %}
+												<img src="{{ image.path }}" alt="{{project.name}}" width="100px" height="100px" class="img-fluid">
+												<i class="fas fa-search-plus"></i>
+												<span class="text-muted">{{nbImages}}
+													images</span>
+											{% endif %}
+										</a>
+									{% endfor %}
+								{% endif %}
+							</td>
+							<td>
+								<span class="fs-8">{{project.year}}</span>
+							</td>
+							<td>
+								{% if project.lastUpdate is empty %}
+									-
+								{% else %}
+									<span class="fs-8">{{project.lastUpdate|date('d-m-Y')}}</span>
+								{% endif %}
+							</td>
+							<td>
+								<span class="p-2 badge bg-{{project.status.getColor}}">{{project.status.value}}</span>
+							</td>
+							<td class="text-center me-auto">
+								<a href="{{ path('admin_projects_reactivate', {'id': project.id}) }}" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="Réactiver">
+									<i class="fas fa-window-restore"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

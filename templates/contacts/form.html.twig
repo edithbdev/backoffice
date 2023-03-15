@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Formulaire de contact
+{% endblock %}
+
+{% block stylesheets %}
+	<style>
+		body {
+			background-image: url("{{ asset('assets/images/portfolio.jpg') }}");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			background-attachment: fixed;
+			-webkit-backdrop-filter: blur(5px);
+			backdrop-filter: blur(5px);
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	<main>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-lg-5 col-md-8 col-sm-12">
+					<div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+						<div class="card-header">
+							<h3 class="text-center font-weight-light my-2">Contactez-moi !</h3>
+						</div>
+						<div class="card-body">
+							{{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+							<div class="row mb-3">
+								<div class="col-md-6 col-6">
+									<div class="mb-3">
+										{{ form_widget(form.lastname, {'attr': {'value': app.user.lastname ?? form.vars.value.lastname}}) }}
+										<div class="text-danger">
+											{{ form_errors(form.lastname) }}
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-6">
+									<div class="mb-3">
+										{{ form_widget(form.firstname, {'attr': {'value': app.user.firstname ?? form.vars.value.firstname}}) }}
+										<div class="text-danger">
+											{{ form_errors(form.firstname) }}
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="mb-3">
+										{{ form_widget(form.email, {'attr': {'value': app.user.email ?? form.vars.value.email}}) }}
+										{# {{ form_help(form.email)}} #}
+										<div class="text-danger">
+											{{ form_errors(form.email) }}
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="mb-3">
+										{{ form_widget(form.subject, {'attr': {'value': form.vars.value.subject}}) }}
+										<div class="text-danger">
+											{{ form_errors(form.subject) }}
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="mb-3">
+										{{ form_widget(form.message, {'attr': {'value': form.vars.value.message}}) }}
+										<div class="text-danger">
+											{{ form_errors(form.message) }}
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 m-0">
+									<div class="mb-0">
+										{{form_widget(form.recaptcha)}}
+										<div class="text-danger">
+											{{ form_errors(form.recaptcha) }}
+										</div>
+									</div>
+								</div>
+
+								<div class="mt-3 mb-2">
+									<div class="d-flex justify-content-center">
+										<button class="btn btn-primary btn-block fs-7" type="submit">Envoyer le message</button>
+									</div>
+								</div>
+							</div>
+							{{ form_end(form) }}
+						</div>
+					</div>
+					{# <div class="card-footer text-center py-3 mt-2">
+											<div class="small">
+												<a href="{{ path('app_login') }}">Vous avez déjà un compte ? Connectez-vous !</a>
+												<a href="{{ path ('app_register')}}">Need an account? Sign up!</a>
+											</div>
+										</div> #}
+				</div>
+			</div>
+		</div>
+	</main>
+
+{% endblock %}
