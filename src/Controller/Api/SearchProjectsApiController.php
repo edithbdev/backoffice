@@ -43,6 +43,7 @@ class SearchProjectsApiController extends AbstractController
                 'name' => $project->getName(),
                 'year' => $project->getYear(),
                 'status' => $project->getStatus(),
+                'slug' => $project->getSlug(),
                 'description' => strip_tags((string)$project->getDescription()),
                 'imageName' => $project->getImageName() ?? '',
                 'imageFile' => $project->getImageFile() ?? '',
