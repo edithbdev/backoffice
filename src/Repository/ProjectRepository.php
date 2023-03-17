@@ -181,6 +181,7 @@ class ProjectRepository extends ServiceEntityRepository
             ->orWhere('f.name LIKE :search')
             ->orWhere('b.name LIKE :search')
             ->orWhere('t.name LIKE :search')
+            ->orWhere('t.description LIKE :search')
             ->setParameter('search', '%' . $search . '%')
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery();
