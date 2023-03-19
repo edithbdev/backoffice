@@ -45,6 +45,9 @@ function toggleViewFunction() {
             viewtable.classList.remove('d-none');
             viewcard.classList.add('d-none');
             localStorage.setItem('currentView', 'table');
+            document.cookie = "currentView=table";
+
+
         } else if (currentView === 'card') {
             card.classList.add('active');
             table.classList.remove('active');
@@ -65,6 +68,7 @@ function toggleViewFunction() {
             viewcard.classList.remove('d-none');
             viewtable.classList.add('d-none');
             localStorage.setItem('currentView', 'card');
+            document.cookie = "currentView=card";
         });
 
         table.addEventListener('click', (event) => {
@@ -74,6 +78,7 @@ function toggleViewFunction() {
             viewtable.classList.remove('d-none');
             viewcard.classList.add('d-none');
             localStorage.setItem('currentView', 'table');
+            document.cookie = "currentView=table";
         });
     }
 }

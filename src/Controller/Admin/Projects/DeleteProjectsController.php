@@ -45,11 +45,13 @@ class DeleteProjectsController extends AbstractController
                         'success',
                         'Le projet a bien été supprimé'
                     );
-                    return $this->redirectToRoute('admin_projects_index');
+                    $currentView = $request->cookies->get('currentView');
+                    return $this->redirectToRoute('admin_projects_index', ['currentView' => $currentView]);
                 }
             }
         }
         $this->addFlash('danger', 'Une erreur est survenue');
-        return $this->redirectToRoute('admin_projects_index');
+        $currentView = $request->cookies->get('currentView');
+        return $this->redirectToRoute('admin_projects_index', ['currentView' => $currentView]);
     }
 }

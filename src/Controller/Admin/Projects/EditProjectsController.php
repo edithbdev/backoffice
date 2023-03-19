@@ -143,7 +143,8 @@ class EditProjectsController extends AbstractController
             $cache->delete('tools_list');
 
             $this->addFlash('success', 'Le projet ' . $project->getName() . ' a été modifié avec succès');
-            return $this->redirectToRoute('admin_projects_index');
+            $currentView = $request->cookies->get('currentView');
+            return $this->redirectToRoute('admin_projects_index', ['currentView' => $currentView]);
         }
 
         return $this->render('admin/projects/edit.html.twig', [

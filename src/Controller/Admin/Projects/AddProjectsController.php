@@ -129,7 +129,8 @@ class AddProjectsController extends AbstractController
             $cache->delete('tools_list');
 
             $this->addFlash('success', 'Le projet ' . $project->getName() . ' a bien été ajouté !');
-            return $this->redirectToRoute('admin_projects_index');
+            $currentView = $request->cookies->get('currentView');
+            return $this->redirectToRoute('admin_projects_index', ['currentView' => $currentView]);
         }
 
         return $this->render('admin/projects/new.html.twig', [

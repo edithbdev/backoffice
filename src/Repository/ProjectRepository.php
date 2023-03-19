@@ -59,7 +59,7 @@ class ProjectRepository extends ServiceEntityRepository
             ->where('p.deleted = 0')
             ->andWhere('p.status IN (:status)')
             ->setParameter('status', $status)
-            ->orderBy('p.name', 'ASC')
+            ->orderBy('p.id', 'DESC')
             ->getQuery();
 
         return $query->getResult();

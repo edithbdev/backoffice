@@ -48,15 +48,28 @@
 										</div>
 
 									</section>
-
-									<div class="d-none" id="viewtable">
-										{{ include('admin/projects/index_table.html.twig')}}
-									</div>
-									<div class="d-none" id="viewcard">
-										{{ include('admin/projects/index_card.html.twig')}}
-									</div>
-
-									
+									{% if currentView == 'table' %}
+										<div class="d-block" id="viewtable">
+											{{ include('admin/projects/index_table.html.twig')}}
+										</div>
+										<div class="d-none" id="viewcard">
+											{{ include('admin/projects/index_card.html.twig')}}
+										</div>
+									{% elseif currentView == 'card' %}
+										<div class="d-none" id="viewtable">
+											{{ include('admin/projects/index_table.html.twig')}}
+										</div>
+										<div class="d-block" id="viewcard">
+											{{ include('admin/projects/index_card.html.twig')}}
+										</div>
+									{% else %}
+										<div class="d-block" id="viewtable">
+											{{ include('admin/projects/index_table.html.twig')}}
+										</div>
+										<div class="d-none" id="viewcard">
+											{{ include('admin/projects/index_card.html.twig')}}
+										</div>
+									{% endif %}
 								</div>
 							</div>
 						</div>

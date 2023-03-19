@@ -41,6 +41,7 @@ class ArchivedProjectsController extends AbstractController
 
     #[Route('/archived/{id}', name: 'reactivate', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function reactivate(
+        Request $request,
         ProjectRepository $project,
         EntityManagerInterface $em,
         string $id,
@@ -64,10 +65,12 @@ class ArchivedProjectsController extends AbstractController
 
             $this->addFlash('success', 'Le projet a bien été réactivé');
 
-            return $this->redirectToRoute('admin_projects_index');
+            $currentView = $request->cookies->get('currentView');
+            return $this->redirectToRoute('admin_projects_index', ['currentView' => $currentView]);
         } else {
             $this->addFlash('danger', 'Le projet n\'existe pas');
-            return $this->redirectToRoute('admin_projects_index');
+            $currentView = $request->cookies->get('currentView');
+            return $this->redirectToRoute('admin_projects_index', ['currentView' => $currentView]);
         }
     }
 }

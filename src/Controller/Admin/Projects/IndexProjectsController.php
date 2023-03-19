@@ -34,12 +34,15 @@ class IndexProjectsController extends AbstractController
 
         if (!$this->isGranted('ROLE_ADMIN')) {
             $this->addFlash('danger', 'Vous n\'avez pas les droits pour accéder à cette page');
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('homepage');
         }
+
+        $currentView = $request->cookies->get('currentView');
 
         return $this->render('admin/projects/index.html.twig', [
             'projects' => $pagination,
-            'entity' => 'projects'
+            'entity' => 'projects',
+            'currentView' => $currentView
         ]);
     }
 }

@@ -52,7 +52,6 @@ class UsersFixtures extends Fixture
             $user->setRoles($faker->randomElement([["ROLE_USER"], ["ROLE_ADMIN"]]));
             $user->setCountSession($faker->numberBetween(0, 100));
             $user->setLastLogin($faker->dateTimeBetween('-1 years', 'now'));
-            // dump($user);
             $manager->persist($user);
         }
 

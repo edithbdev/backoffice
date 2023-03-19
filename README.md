@@ -44,6 +44,9 @@ Ce projet est mon backoffice réalisé avec Symfony 6 pour la gestion de mes pro
 1. Démarrez l'application: `symfony server:start`
 2. Ouvrez votre navigateur et allez sur `http://localhost:8000`
 
+## Exemple : ajout d'un projet
+![Create project](addProject.gif)
+
 ## Déploiement
 
 Le déploiement est automatique sur Hostinger via GitHub Actions lorsqu'un commit est effectué sur la branche main. Les fichiers de configuration se trouvent dans le dossier `.github/workflows`.
