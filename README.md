@@ -33,10 +33,11 @@ Ce projet est mon backoffice réalisé avec Symfony 6 pour la gestion de mes pro
 
 1. Clonez le dépôt: `git clone https://github.com/edithbdev/backoffice.git`
 2. Installez les dépendances: `composer install`
-3. Configurez les variables d'environnement en créant un fichier `.env.local` à la racine du projet. Vous pouvez vous baser sur le fichier `.env` pour les variables à définir.
-4. Créez la base de données: `php bin/console doctrine:database:create`
-5. Lancez les migrations: `php bin/console doctrine:migrations:migrate`
-6. Chargez les fixtures (données de test): `php bin/console doctrine:fixtures:load`
+3. Installez les dépendances javascript: `npm install`
+4. Configurez les variables d'environnement en créant un fichier `.env.local` à la racine du projet. Vous pouvez vous baser sur le fichier `.env` pour les variables à définir.
+5. Créez la base de données: `php bin/console doctrine:database:create`
+6. Lancez les migrations: `php bin/console doctrine:migrations:migrate`
+7. Chargez les fixtures (données de test): `php bin/console doctrine:fixtures:load`
 
 ## Utilisation
 

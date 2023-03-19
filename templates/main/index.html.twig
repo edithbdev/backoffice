@@ -27,111 +27,104 @@
 					<div class="row">
 						<div class="col-xl-3 col-md-4">
 							<div class="card bg-primary text-white mb-4">
+								<h1 class="card-header fs-6">Projets</h1>
 								<div class="card-body d-flex justify-content-between align-items-center">
-										<div>Projets</div>
-										<div>
-											<a href="{{ path ('admin_projects_create') }}" class="btn btn-sm btn-success">
-												<i class="fas fa-plus"></i> Nouveau
-											</a>
-										</div>
-								</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="{{ path ('admin_projects_index') }}">Voir la liste</a>
-									<div class="small text-white">
+									<a href="{{ path('admin_projects_create') }}" class="btn btn-sm btn-success">
+										<i class="fas fa-plus" aria-hidden="true"></i>
+										Nouveau
+									</a>
+									<a href="{{ path('admin_projects_index') }}" class="btn btn-sm text-white">
 										<i class="fas fa-angle-right" aria-hidden="true"></i>
-									</div>
+										Voir la liste
+									</a>
 								</div>
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-4">
 							<div class="card bg-danger text-white mb-4">
-								<div class="card-body">Projets archivés</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="{{ path ('admin_projects_archived') }}">Voir la liste</a>
-									<div class="small text-white">
+								<h1 class="card-header fs-6">Projets archivés</h1>
+								<div class="card-body d-flex justify-content-between align-items-center">
+									<a href="{{ path('admin_projects_archived') }}" class="btn btn-sm text-white">
 										<i class="fas fa-angle-right" aria-hidden="true"></i>
-									</div>
+										Voir la liste
+									</a>
 								</div>
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-4">
 							<div class="card bg-dark text-white mb-4">
-								<div class="card-body">Utilisateurs</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="{{ path ('admin_users_index') }}">Voir la liste</a>
-									<div class="small text-white">
+								<h1 class="card-header fs-6">Utilisateurs</h1>
+								<div class="card-body d-flex justify-content-between align-items-center">
+									<a href="{{ path('admin_users_create') }}" class="btn btn-sm btn-success">
+										<i class="fas fa-plus" aria-hidden="true"></i>
+										Nouveau
+									</a>
+									<a href="{{ path('admin_users_index') }}" class="btn btn-sm text-white">
 										<i class="fas fa-angle-right" aria-hidden="true"></i>
-									</div>
+										Voir la liste
+									</a>
 								</div>
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-4">
 							<div class="card bg-dark text-white mb-4">
-								<div class="card-body">Messages
+								<h1 class="card-header fs-6">Messages
 									<span class="badge bg-primary text-white ms-1 rounded-pill">
-										{{ countUnreadMessages() }} non lus
+										{{ countUnreadMessages() }}
+										non lus
 									</span>
-								</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="{{ path ('admin_messages_index') }}">Voir la liste</a>
-									<div class="small text-white">
+								</h1>
+								<div class="card-body d-flex justify-content-between align-items-center">
+									<a href="{{ path('admin_messages_index') }}" class="btn btn-sm text-white">
 										<i class="fas fa-angle-right" aria-hidden="true"></i>
-									</div>
+										Voir la liste
+									</a>
 								</div>
 							</div>
 						</div>
 						<hr/>
 						<div class="col-xl-3 col-md-4">
 							<div class="card bg-secondary text-white mb-4">
+								<h1 class="card-header fs-6">Frontend</h1>
 								<div class="card-body d-flex justify-content-between align-items-center">
-									<div>Frontend</div>
-									<div>
-										<a href="{{ path ('admin_frontendLanguages_create') }}" class="btn btn-sm btn-success">
-											<i class="fas fa-plus"></i> Nouveau
-										</a>
-									</div>
-								</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="{{ path ('admin_frontendLanguages_index') }}">Voir la liste</a>
-									<div class="small text-white">
+									<a href="{{ path('admin_frontendLanguages_create') }}" class="btn btn-sm btn-success">
+										<i class="fas fa-plus" aria-hidden="true"></i>
+										Nouveau
+									</a>
+									<a href="{{ path('admin_frontendLanguages_index') }}" class="btn btn-sm text-white">
 										<i class="fas fa-angle-right" aria-hidden="true"></i>
-									</div>
+										Voir la liste
+									</a>
 								</div>
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-4">
 							<div class="card bg-secondary text-white mb-4">
+								<h1 class="card-header fs-6">Backend</h1>
 								<div class="card-body d-flex justify-content-between align-items-center">
-									<div>Backend</div>
-									<div>
-										<a href="{{ path ('admin_backendLanguages_create') }}" class="btn btn-sm btn-success">
-											<i class="fas fa-plus"></i> Nouveau
-										</a>
-									</div>
-								</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="{{ path ('admin_backendLanguages_index') }}">Voir la liste</a>
-									<div class="small text-white">
+									<a href="{{ path('admin_backendLanguages_create') }}" class="btn btn-sm btn-success">
+										<i class="fas fa-plus" aria-hidden="true"></i>
+										Nouveau
+									</a>
+									<a href="{{ path('admin_backendLanguages_index') }}" class="btn btn-sm text-white">
 										<i class="fas fa-angle-right" aria-hidden="true"></i>
-									</div>
+										Voir la liste
+									</a>
 								</div>
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-4">
 							<div class="card bg-secondary text-white mb-4">
+								<h1 class="card-header fs-6">Outils</h1>
 								<div class="card-body d-flex justify-content-between align-items-center">
-									<div>Outils</div>
-									<div>
-										<a href="{{ path ('admin_tools_create') }}" class="btn btn-sm btn-success">
-											<i class="fas fa-plus"></i> Nouveau
-										</a>
-									</div>
-								</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="{{ path ('admin_tools_index') }}">Voir la liste</a>
-									<div class="small text-white">
+									<a href="{{ path('admin_tools_create') }}" class="btn btn-sm btn-success">
+										<i class="fas fa-plus" aria-hidden="true"></i>
+										Nouveau
+									</a>
+									<a href="{{ path('admin_tools_index') }}" class="btn btn-sm text-white">
 										<i class="fas fa-angle-right" aria-hidden="true"></i>
-									</div>
+										Voir la liste
+									</a>
 								</div>
 							</div>
 						</div>
