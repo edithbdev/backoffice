@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string Password de l'utilisateur
      */
-    #[ORM\Column]
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(min: 6, max: 80)]
     #[Assert\NotBlank(message: 'Merci de renseigner un mot de passe')]
     private ?string $password;

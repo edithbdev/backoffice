@@ -132,7 +132,7 @@ class SecurityController extends AbstractController
         Request $request,
         UserRepository $usersRepository,
         EntityManagerInterface $em,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordEncoder
     ): Response {
         // On vérifie si le token est valide
         $user = $usersRepository->findOneByResetToken($token);
@@ -146,7 +146,7 @@ class SecurityController extends AbstractController
                 // On supprime le token
                 $user->setResetToken('');
                 $user->setPassword(
-                    $passwordHasher->hashPassword(
+                    $passwordEncoder->hashPassword(
                         $user,
                         $form->get('password')->getData()
                     )
@@ -234,13 +234,20 @@ class SecurityController extends AbstractController
     public function verifyEmail(
         string $token,
         UserRepository $usersRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        UserPasswordHasherInterface $passwordEncoder
     ): Response {
         // On vérifie si le token est valide
         $user = $usersRepository->findOneByResetToken($token);
 
         if ($user) {
+            // On supprime le token pour éviter qu'il ne soit réutilisé
+            $user->setResetToken('');
+            // On active le compte de l'utilisateur
             $user->setIsVerified(true);
+            $user->setPassword(
+                $passwordEncoder->hashPassword($user, (string)$user->getPassword())
+            );
             $em->persist($user);
             $em->flush();
 
