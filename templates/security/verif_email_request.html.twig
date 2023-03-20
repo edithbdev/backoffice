@@ -21,7 +21,7 @@
 									<div class="small mb-3 text-muted">Entrer votre adresse email et nous vous enverrons le lien de vérification.</div>
 									{{ form_start(form) }}
 									<div class="form-floating mb-3">
-										{{ form_row(form.email) }}
+										{{ form_row(form.email, {'attr': {'value': app.request.get("email") }}) }}
 									</div>
 									<div class="d-flex align-items-center justify-content-between mt-4 mb-0">
 										<a class="small" href="{{ path('app_login') }}">Retour à la connexion</a>

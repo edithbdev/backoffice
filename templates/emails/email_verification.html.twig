@@ -7,7 +7,7 @@
     Pour activer votre compte, veuillez cliquer sur le lien suivant :
 </p>
 <p>
-    <a href="{{ url('verify_email', {'token': user.resetToken}) }}">Activer mon compte</a>
+    <a href="{{ absolute_url(path('verify_email', {token: user.resetToken})) }}">Activer mon compte</a>
 </p>
 <p>
     Cordialement,

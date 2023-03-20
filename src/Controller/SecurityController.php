@@ -78,7 +78,6 @@ class SecurityController extends AbstractController
                     $data[] = $error->getMessage();
                 }
             }
-            return $this->json($data, 400);
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -187,7 +186,6 @@ class SecurityController extends AbstractController
                     $data[] = $error->getMessage();
                 }
             }
-            return $this->json($data, 400);
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -234,20 +232,14 @@ class SecurityController extends AbstractController
     public function verifyEmail(
         string $token,
         UserRepository $usersRepository,
-        EntityManagerInterface $em,
-        UserPasswordHasherInterface $passwordEncoder
+        EntityManagerInterface $em
     ): Response {
         // On vérifie si le token est valide
         $user = $usersRepository->findOneByResetToken($token);
 
         if ($user) {
-            // On supprime le token pour éviter qu'il ne soit réutilisé
-            $user->setResetToken('');
             // On active le compte de l'utilisateur
             $user->setIsVerified(true);
-            $user->setPassword(
-                $passwordEncoder->hashPassword($user, (string)$user->getPassword())
-            );
             $em->persist($user);
             $em->flush();
 

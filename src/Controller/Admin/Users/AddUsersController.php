@@ -61,7 +61,11 @@ class AddUsersController extends AbstractController
                 );
 
                 $user->setCreatedAt(new DateTimeImmutable());
-                $user->setRoles(['ROLE_USER']);
+                if ($user->getRoles() == null) {
+                    $user->setRoles(['ROLE_USER']);
+                } else {
+                    $user->setRoles($user->getRoles());
+                }
 
                 $token = $tokenGenerator->generateToken();
                 $user->setResetToken($token);
