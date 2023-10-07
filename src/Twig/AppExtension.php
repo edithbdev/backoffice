@@ -48,12 +48,20 @@ class AppExtension extends AbstractExtension
         return $string;
     }
 
-    public function countUnreadMessages(): int
+    /**
+     * Retrieves the number of unread messages.
+     * @return bool|float|int|string|null The number of unread messages.
+     */
+    public function countUnreadMessages()
     {
         return $this->contact->countUnreadMessages();
     }
 
-    public function countMessagesArchived(): int
+     /**
+     * Retrieves the number of archived messages.
+     * @return bool|float|int|string|null The number of archived messages.
+     */
+    public function countMessagesArchived()
     {
         return $this->contact->countMessagesArchived();
     }

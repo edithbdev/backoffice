@@ -24,7 +24,7 @@ Ce projet est mon backoffice réalisé avec Symfony 6 pour la gestion de mes pro
 - Archivage d'un message 
 - Suppression d'un message
 - Gestion des routes API + mise en cache des données pour des performances optimales
-- Tests unitaires et fonctionnels avec PHPUnit, lancer les tests avec la commande `php bin/phpunit` ou `composer test` ([voir documentation de Symfony pour la configuration des tests](https://symfony.com/doc/current/the-fast-track/fr/17-tests.html))
+- Tests unitaires et fonctionnels avec PHPUnit, lancer les tests avec la commande `composer test` ([voir documentation de Symfony pour la configuration des tests](https://symfony.com/doc/current/the-fast-track/fr/17-tests.html))
 
 - Test coverage avec PHPUnit, lancer la vérification avec la commande `composer coverage`, permet de vérifier la couverture des tests unitaires et fonctionnels.
 - Qualité du code avec PHPStan (norme PSR-12), lancer la vérification avec la commande `composer phpstan`

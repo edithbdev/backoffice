@@ -59,7 +59,11 @@ class ContactRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function countUnreadMessages(): int
+    /**
+     * Retrieves the number of unread messages.
+     * @return bool|float|int|string|null The number of unread messages.
+     */
+    public function countUnreadMessages()
     {
         $query = $this->createQueryBuilder('c')
             ->select('COUNT(c)')
@@ -70,7 +74,11 @@ class ContactRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
 
-    public function countMessagesArchived(): int
+    /**
+     * Retrieves the number of archived messages.
+     * @return bool|float|int|string|null The number of archived messages.
+     */
+    public function countMessagesArchived()
     {
         $query = $this->createQueryBuilder('c')
             ->select('COUNT(c)')
