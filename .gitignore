@@ -33,9 +33,6 @@
 
 /doc/
 
-###> node_modules ###
-/node_modules/
-
 ###>public/media ###
 /public/media
 
@@ -60,3 +57,6 @@
 
 ###>composer phar ###
 /composer.phar
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

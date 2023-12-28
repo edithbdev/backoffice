@@ -4,11 +4,12 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.0.2",
+        "php": ">=8.2.14",
         "ext-ctype": "*",
         "ext-gd": "*",
         "ext-iconv": "*",
         "ext-imagick": "*",
+        "ext-zip": "*",
         "composer-runtime-api": "^2.2",
         "amphp/http-client": "^4.6",
         "beberlei/doctrineextensions": "^1.3",
