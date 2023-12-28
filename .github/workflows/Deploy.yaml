@@ -12,7 +12,6 @@ jobs:
 
     env:
       SSHPASS: ${{ secrets.APP_PASS }}
-      IP: ${{ secrets.IP }}
 
     steps:
 
@@ -42,12 +41,6 @@ jobs:
             ${{ runner.os }}-php-
       - name: Install Dependencies PHP
         run: composer install --no-dev --no-scripts --no-interaction
-
-      - name: Prepare SSH
-        run: >
-          cd ~ && mkdir .ssh &&
-          touch ~/.ssh/known_hosts &&
-          ssh-keyscan -H "$IP" >>~/.ssh/known_hosts
 
       - name: deploy
         run:
